@@ -11,7 +11,7 @@
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
     
     <!-- ========================================== -->
-    <!-- 🎯 YOUR MONETAG SDK (REWARDED INTERSTITIAL) -->
+    <!-- 🎯 MONETAG REWARDED INTERSTITIAL TAG       -->
     <!-- ========================================== -->
     <script src="//libtl.com/sdk.js" data-zone="11083093" data-sdk="show_11083093"></script>
     
@@ -69,6 +69,157 @@
             border-radius: 20px;
             font-size: 13px;
             cursor: pointer;
+        }
+        
+        /* ===== ANNOUNCEMENT BANNER ===== */
+        #announcementBanner {
+            display: none;
+            background: linear-gradient(135deg, #1e293b, #0f172a);
+            border-radius: 12px;
+            padding: 14px 16px;
+            margin-bottom: 16px;
+            border: 1px solid rgba(245, 158, 11, 0.3);
+            animation: slideDown 0.4s ease;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        
+        #announcementBanner:hover {
+            background: linear-gradient(135deg, #2d3a4f, #1e293b);
+        }
+        
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        #announcementBanner .announcement-flex {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+        
+        #announcementBanner .announcement-content {
+            flex: 1;
+        }
+        
+        #announcementBanner .announcement-label {
+            font-size: 11px;
+            color: #f59e0b;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        #announcementBanner .announcement-message {
+            font-size: 14px;
+            color: #e2e8f0;
+            line-height: 1.5;
+            margin-top: 2px;
+        }
+        
+        #announcementBanner .announcement-time {
+            font-size: 10px;
+            color: #64748b;
+            margin-top: 4px;
+        }
+        
+        #announcementBanner .announcement-badge {
+            background: #ef4444;
+            color: white;
+            font-size: 10px;
+            font-weight: 700;
+            padding: 2px 10px;
+            border-radius: 20px;
+            margin-left: 8px;
+            flex-shrink: 0;
+        }
+        
+        #announcementBanner .dismiss-btn {
+            background: rgba(255,255,255,0.08);
+            border: none;
+            color: #94a3b8;
+            padding: 2px 10px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 14px;
+            flex-shrink: 0;
+            margin-left: 10px;
+            transition: background 0.2s;
+        }
+        
+        #announcementBanner .dismiss-btn:hover {
+            background: rgba(255,255,255,0.15);
+        }
+        
+        /* ===== ANNOUNCEMENT HISTORY ===== */
+        .announcement-list {
+            margin: 12px 0;
+        }
+        
+        .announcement-item {
+            background: #1e293b;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 10px;
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: background 0.2s;
+        }
+        
+        .announcement-item:hover {
+            background: #2d3a4f;
+        }
+        
+        .announcement-item .item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 6px;
+        }
+        
+        .announcement-item .item-title {
+            font-size: 12px;
+            font-weight: 600;
+            color: #f59e0b;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .announcement-item .item-time {
+            font-size: 11px;
+            color: #64748b;
+        }
+        
+        .announcement-item .item-message {
+            font-size: 14px;
+            color: #e2e8f0;
+            line-height: 1.6;
+        }
+        
+        .announcement-item .item-read {
+            font-size: 10px;
+            color: #10b981;
+            margin-top: 6px;
+            display: inline-block;
+        }
+        
+        .announcement-item .item-unread {
+            font-size: 10px;
+            color: #f59e0b;
+            margin-top: 6px;
+            display: inline-block;
+        }
+        
+        .no-announcements {
+            text-align: center;
+            padding: 40px 20px;
+            color: #64748b;
+        }
+        
+        .no-announcements .icon {
+            font-size: 48px;
+            margin-bottom: 12px;
+            display: block;
         }
         
         /* ===== WEEKLY PROGRESS ===== */
@@ -227,8 +378,8 @@
         /* ===== MENU GRID ===== */
         .menu-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            gap: 10px;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+            gap: 8px;
             margin-top: 4px;
         }
         
@@ -236,16 +387,33 @@
             background: #1e293b;
             border: 1px solid rgba(255,255,255,0.05);
             border-radius: 14px;
-            padding: 14px 8px;
+            padding: 12px 6px;
             text-align: center;
             cursor: pointer;
             transition: background 0.15s;
         }
         
         .menu-item:active { background: #2d3a4f; transform: scale(0.97); }
-        .menu-item .icon { font-size: 24px; display: block; margin-bottom: 2px; }
-        .menu-item .label { font-size: 11px; font-weight: 500; color: #e2e8f0; }
-        .menu-item .badge { font-size: 10px; color: #f59e0b; font-weight: 600; display: block; margin-top: 2px; }
+        .menu-item .icon { font-size: 22px; display: block; margin-bottom: 2px; }
+        .menu-item .label { font-size: 10px; font-weight: 500; color: #e2e8f0; }
+        .menu-item .badge {
+            font-size: 9px;
+            color: #f59e0b;
+            font-weight: 600;
+            display: block;
+            margin-top: 2px;
+        }
+        .menu-item .notification-dot {
+            display: none;
+            width: 8px;
+            height: 8px;
+            background: #ef4444;
+            border-radius: 50%;
+            margin: 0 auto 2px;
+        }
+        .menu-item .notification-dot.show {
+            display: block;
+        }
         
         /* ===== SCREENS ===== */
         .screen { display: none; animation: fadeIn 0.3s ease; }
@@ -392,10 +560,10 @@
             body { padding: 12px; }
             .app-container { padding: 16px; border-radius: 20px; min-height: 600px; }
             .stat-card .value { font-size: 20px; }
-            .menu-grid { grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
-            .menu-item { padding: 10px 6px; }
-            .menu-item .icon { font-size: 20px; }
-            .menu-item .label { font-size: 10px; }
+            .menu-grid { grid-template-columns: 1fr 1fr 1fr 1fr; gap: 6px; }
+            .menu-item { padding: 8px 4px; }
+            .menu-item .icon { font-size: 18px; }
+            .menu-item .label { font-size: 9px; }
             .weekly-progress { padding: 14px; }
             .weekly-progress .progress-count { font-size: 14px; }
         }
@@ -415,6 +583,19 @@
             <div class="app-header">
                 <h1>ARENA</h1>
                 <button class="close-btn" onclick="closeApp()">✕ Close</button>
+            </div>
+            
+            <!-- ===== ANNOUNCEMENT BANNER ===== -->
+            <div id="announcementBanner" onclick="showScreen('announcementScreen')">
+                <div class="announcement-flex">
+                    <div class="announcement-content">
+                        <div class="announcement-label">📢 NEW ANNOUNCEMENT</div>
+                        <div class="announcement-message" id="announcementMessage">Loading...</div>
+                        <div class="announcement-time" id="announcementTime"></div>
+                    </div>
+                    <span class="announcement-badge" id="unreadBadge">NEW</span>
+                    <button class="dismiss-btn" onclick="event.stopPropagation(); dismissAnnouncement()">✕</button>
+                </div>
             </div>
             
             <!-- Weekly Progress -->
@@ -477,6 +658,11 @@
                     <span class="label">Rank</span>
                     <span class="badge" id="userRankBadge">#--</span>
                 </div>
+                <div class="menu-item" onclick="showScreen('announcementScreen')">
+                    <span class="icon">📢</span>
+                    <span class="label">News</span>
+                    <span class="notification-dot" id="notificationDot"></span>
+                </div>
                 <div class="menu-item" onclick="showScreen('historyScreen')">
                     <span class="icon">📊</span>
                     <span class="label">History</span>
@@ -535,6 +721,17 @@
             
             <div style="margin-top:16px; text-align:center; color:#64748b; font-size:14px; padding:12px; background:#1e293b; border-radius:10px;">
                 My Rank: <span style="color:#f59e0b; font-weight:700;" id="myRankDisplay">#--</span>
+            </div>
+        </div>
+        
+        <!-- ===== ANNOUNCEMENT SCREEN ===== -->
+        <div class="screen" id="announcementScreen">
+            <button class="back-btn" onclick="showScreen('homeScreen')">← Back</button>
+            <div class="screen-title">📢 Announcements</div>
+            <div class="screen-subtitle">All updates from the admin</div>
+            
+            <div class="announcement-list" id="announcementList">
+                <div class="loading"><div class="spinner"></div>Loading announcements...</div>
             </div>
         </div>
         
@@ -597,12 +794,12 @@
         var db = firebase.firestore();
         var userId = null;
         var WEEKLY_GOAL = 10000;
+        var unreadAnnouncements = 0;
         
         // ============================================================
         // 🚀 INIT - Get User from Telegram
         // ============================================================
         function initApp() {
-            // Telegram WebApp API
             var tg = window.Telegram?.WebApp;
             if (tg) {
                 tg.expand();
@@ -685,10 +882,119 @@
                     document.getElementById('watchSubText').textContent = 'Earn 10 Points';
                 }
                 
+                // Check announcements
+                await loadAnnouncements(data);
+                
                 loadRankings();
             } catch (error) {
                 console.error('Error:', error);
             }
+        }
+        
+        // ============================================================
+        // 📢 LOAD ANNOUNCEMENTS
+        // ============================================================
+        async function loadAnnouncements(data) {
+            try {
+                var announcements = data.announcements || [];
+                var lastAnnouncement = data.lastAnnouncement || null;
+                
+                // Count unread
+                unreadAnnouncements = announcements.filter(function(a) { return !a.read; }).length;
+                
+                // Show notification dot if unread
+                var dot = document.getElementById('notificationDot');
+                if (unreadAnnouncements > 0) {
+                    dot.className = 'notification-dot show';
+                } else {
+                    dot.className = 'notification-dot';
+                }
+                
+                // Show latest announcement as banner
+                if (unreadAnnouncements > 0) {
+                    var latest = announcements.filter(function(a) { return !a.read; })[0];
+                    showBanner(latest.message, latest.timestamp);
+                } else if (announcements.length > 0) {
+                    // If all read, show the latest as "viewed"
+                    var latestAll = announcements[announcements.length - 1];
+                    // Don't show banner if no unread
+                    document.getElementById('announcementBanner').style.display = 'none';
+                } else {
+                    document.getElementById('announcementBanner').style.display = 'none';
+                }
+                
+                // Render full announcement list
+                renderAnnouncementList(announcements);
+                
+            } catch (error) {
+                console.error('Error loading announcements:', error);
+            }
+        }
+        
+        function showBanner(message, timestamp) {
+            var banner = document.getElementById('announcementBanner');
+            var msgEl = document.getElementById('announcementMessage');
+            var timeEl = document.getElementById('announcementTime');
+            var badge = document.getElementById('unreadBadge');
+            
+            msgEl.textContent = message;
+            if (timestamp) {
+                timeEl.textContent = '📅 ' + new Date(timestamp).toLocaleString();
+            } else {
+                timeEl.textContent = '';
+            }
+            
+            if (unreadAnnouncements > 1) {
+                badge.textContent = unreadAnnouncements + ' NEW';
+            } else {
+                badge.textContent = 'NEW';
+            }
+            
+            banner.style.display = 'block';
+        }
+        
+        function dismissAnnouncement() {
+            document.getElementById('announcementBanner').style.display = 'none';
+        }
+        
+        function renderAnnouncementList(announcements) {
+            var listEl = document.getElementById('announcementList');
+            
+            if (!announcements || announcements.length === 0) {
+                listEl.innerHTML = `
+                    <div class="no-announcements">
+                        <span class="icon">📭</span>
+                        No announcements yet.<br>
+                        Check back later for updates!
+                    </div>
+                `;
+                return;
+            }
+            
+            // Show from newest to oldest (reverse)
+            var reversed = announcements.slice().reverse();
+            var html = '';
+            
+            reversed.forEach(function(announcement) {
+                var isRead = announcement.read || false;
+                var statusClass = isRead ? 'item-read' : 'item-unread';
+                var statusText = isRead ? '✅ Read' : '📌 New';
+                var timestamp = announcement.timestamp || 'Just now';
+                var displayTime = typeof timestamp === 'string' ? timestamp : new Date(timestamp).toLocaleString();
+                
+                html += `
+                    <div class="announcement-item">
+                        <div class="item-header">
+                            <span class="item-title">📢 Announcement</span>
+                            <span class="item-time">${displayTime}</span>
+                        </div>
+                        <div class="item-message">${announcement.message}</div>
+                        <span class="${statusClass}">${statusText}</span>
+                    </div>
+                `;
+            });
+            
+            listEl.innerHTML = html;
         }
         
         // ============================================================
@@ -712,24 +1018,20 @@
         }
         
         // ============================================================
-        // 👁️ WATCH AD - WITH YOUR MONETAG SDK (Zone: 11083093)
+        // 👁️ WATCH AD - WITH MONETAG INTEGRATION
         // ============================================================
         function watchAd() {
             var btn = document.getElementById('watchBtn');
             
-            // Check if Monetag function exists
             if (typeof show_11083093 === 'undefined') {
                 alert('Ad service is not available. Please try again later.');
                 return;
             }
             
-            // Disable button
             btn.disabled = true;
             btn.innerHTML = '⏳ Loading ad...';
             
-            // Call Monetag Rewarded Interstitial with YOUR Zone ID
             show_11083093().then(function() {
-                // --- AD WATCHED SUCCESSFULLY ---
                 showScreen('rewardScreen');
                 
                 var todayKey = new Date().toISOString().split('T')[0];
@@ -747,7 +1049,6 @@
                 };
                 
                 docRef.update(updates).then(function() {
-                    // Update UI
                     var pointsEl = document.getElementById('userPoints');
                     var currentPoints = parseInt(pointsEl.textContent.replace(/,/g, '')) || 0;
                     pointsEl.textContent = (currentPoints + 10).toLocaleString();
@@ -797,7 +1098,6 @@
                     btn.innerHTML = 'WATCH ADS<span class="sub-text">Earn 10 Points</span>';
                 });
             }).catch(function(error) {
-                // Ad failed to load or user closed it
                 console.error('Ad failed:', error);
                 alert('Ad failed to load. Please try again.');
                 btn.disabled = false;
@@ -865,6 +1165,7 @@
             document.getElementById(screenId).classList.add('active');
             if (screenId === 'rankingScreen') loadRankings();
             if (screenId === 'homeScreen') loadUserData();
+            if (screenId === 'announcementScreen') loadUserData();
             if (screenId === 'historyScreen') loadUserData();
         }
         
