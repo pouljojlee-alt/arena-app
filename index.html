@@ -10,6 +10,11 @@
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
     
+    <!-- ========================================== -->
+    <!-- 🎯 YOUR MONETAG SDK (REWARDED INTERSTITIAL) -->
+    <!-- ========================================== -->
+    <script src="//libtl.com/sdk.js" data-zone="11083093" data-sdk="show_11083093"></script>
+    
     <style>
         /* ===== RESET & BASE ===== */
         * {
@@ -199,24 +204,24 @@
             font-size: 18px;
             font-weight: 700;
             cursor: pointer;
-            transition: transform 0.15s;
+            transition: transform 0.15s, opacity 0.3s;
             margin-bottom: 16px;
             box-shadow: 0 8px 24px rgba(245, 158, 11, 0.3);
         }
         
         .watch-btn:active { transform: scale(0.96); }
+        .watch-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
         .watch-btn .sub-text {
             display: block;
             font-size: 13px;
             font-weight: 400;
             opacity: 0.85;
             margin-top: 2px;
-        }
-        
-        .watch-btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            transform: none;
         }
         
         /* ===== MENU GRID ===== */
@@ -407,7 +412,6 @@
     <div class="app-container" id="app">
         <!-- ===== HOME SCREEN ===== -->
         <div class="screen active" id="homeScreen">
-            <!-- Header -->
             <div class="app-header">
                 <h1>ARENA</h1>
                 <button class="close-btn" onclick="closeApp()">✕ Close</button>
@@ -593,24 +597,30 @@
         var db = firebase.firestore();
         var userId = null;
         var WEEKLY_GOAL = 10000;
-        var todayDate = new Date().toDateString();
         
         // ============================================================
-        // 🚀 INIT
+        // 🚀 INIT - Get User from Telegram
         // ============================================================
         function initApp() {
+            // Telegram WebApp API
             var tg = window.Telegram?.WebApp;
-            if (tg && tg.initDataUnsafe && tg.initDataUnsafe.user) {
-                var user = tg.initDataUnsafe.user;
-                userId = user.id.toString();
-                document.getElementById('displayName').textContent = user.first_name || 'Arena Player';
-                document.getElementById('displayId').textContent = 'ID: ' + userId;
-                document.getElementById('referralLink').textContent = 'https://t.me/arena_bot?start=' + userId;
-            } else {
+            if (tg) {
+                tg.expand();
+                if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
+                    var user = tg.initDataUnsafe.user;
+                    userId = user.id.toString();
+                    document.getElementById('displayName').textContent = user.first_name || 'Arena Player';
+                    document.getElementById('displayId').textContent = 'ID: ' + userId;
+                    document.getElementById('referralLink').textContent = 'https://t.me/arena_bot?start=' + userId;
+                }
+            }
+            
+            if (!userId) {
                 userId = '123456789';
                 document.getElementById('displayId').textContent = 'ID: 123456789';
-                document.getElementById('referralLink').textContent = 'https://t.me/arena_bot?start=' + userId;
+                document.getElementById('referralLink').textContent = 'https://t.me/arena_bot?start=123456789';
             }
+            
             loadUserData();
         }
         
@@ -627,43 +637,32 @@
                     data = doc.data();
                 }
                 
-                // Get today's date key
                 var todayKey = new Date().toISOString().split('T')[0];
                 var weekKey = getWeekKey();
                 
-                // Initialize daily tracking if needed
                 var dailyAds = data.dailyAds || {};
                 var weeklyAds = data.weeklyAds || {};
                 var monthlyAds = data.monthlyAds || {};
                 
-                // Today's ads
                 var todayCount = dailyAds[todayKey] || 0;
                 document.getElementById('todayAds').textContent = todayCount;
                 
-                // This week's ads
                 var weekCount = weeklyAds[weekKey] || 0;
                 document.getElementById('weekAds').textContent = weekCount;
                 
-                // All time ads
                 var allTime = data.allTimeAds || 0;
                 document.getElementById('allTimeAds').textContent = allTime;
                 
-                // Points
                 document.getElementById('userPoints').textContent = (data.points || 0).toLocaleString();
-                
-                // Referrals
                 document.getElementById('totalReferrals').textContent = data.totalReferrals || 0;
                 document.getElementById('referralEarnings').textContent = data.referralEarnings || 0;
                 
-                // Rank
                 var rank = data.rank || '--';
                 document.getElementById('userRankBadge').textContent = '#' + rank;
                 document.getElementById('myRankDisplay').textContent = '#' + rank;
                 
-                // Update weekly progress
                 updateWeeklyProgress(weekCount);
                 
-                // Update history
                 var monthKey = new Date().getFullYear() + '-' + (new Date().getMonth() + 1);
                 document.getElementById('historyToday').textContent = todayCount;
                 document.getElementById('historyWeek').textContent = weekCount;
@@ -672,12 +671,10 @@
                 document.getElementById('historyProgressText').textContent = weekCount + ' / 10,000';
                 document.getElementById('historyProgressFill').style.width = Math.min((weekCount / WEEKLY_GOAL) * 100, 100) + '%';
                 
-                // Days left in week
                 var daysLeft = 7 - new Date().getDay();
                 if (daysLeft === 0) daysLeft = 7;
                 document.getElementById('historyDaysLeft').textContent = daysLeft + ' days left in the week';
                 
-                // Check if weekly goal reached
                 if (weekCount >= WEEKLY_GOAL) {
                     document.getElementById('progressStatus').textContent = '✅ GOAL REACHED! 🎉';
                     document.getElementById('progressStatus').className = 'progress-stats goal-reached';
@@ -687,14 +684,6 @@
                     document.getElementById('progressStatus').className = 'progress-stats';
                     document.getElementById('watchSubText').textContent = 'Earn 10 Points';
                 }
-                
-                // Store data for later use
-                window.userData = data;
-                window.weeklyCount = weekCount;
-                window.todayCount = todayCount;
-                window.dailyAds = dailyAds;
-                window.weeklyAds = weeklyAds;
-                window.monthlyAds = monthlyAds;
                 
                 loadRankings();
             } catch (error) {
@@ -723,15 +712,24 @@
         }
         
         // ============================================================
-        // 👁️ WATCH AD
+        // 👁️ WATCH AD - WITH YOUR MONETAG SDK (Zone: 11083093)
         // ============================================================
         function watchAd() {
             var btn = document.getElementById('watchBtn');
-            btn.disabled = true;
-            btn.textContent = '⏳ Watching...';
             
-            // Simulate ad watching delay (2 seconds)
-            setTimeout(function() {
+            // Check if Monetag function exists
+            if (typeof show_11083093 === 'undefined') {
+                alert('Ad service is not available. Please try again later.');
+                return;
+            }
+            
+            // Disable button
+            btn.disabled = true;
+            btn.innerHTML = '⏳ Loading ad...';
+            
+            // Call Monetag Rewarded Interstitial with YOUR Zone ID
+            show_11083093().then(function() {
+                // --- AD WATCHED SUCCESSFULLY ---
                 showScreen('rewardScreen');
                 
                 var todayKey = new Date().toISOString().split('T')[0];
@@ -740,7 +738,6 @@
                 
                 var docRef = db.collection('users').doc(userId);
                 
-                // Prepare updates
                 var updates = {
                     points: firebase.firestore.FieldValue.increment(10),
                     allTimeAds: firebase.firestore.FieldValue.increment(1),
@@ -768,16 +765,12 @@
                     var currentAllTime = parseInt(allTimeEl.textContent) || 0;
                     allTimeEl.textContent = currentAllTime + 1;
                     
-                    // Update weekly progress
                     updateWeeklyProgress(newWeek);
                     
-                    // Check if goal reached
                     var isGoalReached = newWeek >= WEEKLY_GOAL;
-                    var rewardMessage = '';
                     var rewardEmoji = '🎉';
                     
                     if (isGoalReached) {
-                        rewardMessage = '🏆 WEEKLY GOAL COMPLETE! 10,000 ADS!';
                         rewardEmoji = '🏆';
                         document.getElementById('milestoneMessage').style.display = 'block';
                         document.getElementById('milestoneText').textContent = '🏆 10,000 Ads Reached! Amazing!';
@@ -798,11 +791,18 @@
                     btn.innerHTML = 'WATCH ADS<span class="sub-text" id="watchSubText">Earn 10 Points</span>';
                     
                 }).catch(function(error) {
-                    console.error('Error:', error);
+                    console.error('Error updating points:', error);
+                    alert('Error saving your reward. Please try again.');
                     btn.disabled = false;
                     btn.innerHTML = 'WATCH ADS<span class="sub-text">Earn 10 Points</span>';
                 });
-            }, 2000);
+            }).catch(function(error) {
+                // Ad failed to load or user closed it
+                console.error('Ad failed:', error);
+                alert('Ad failed to load. Please try again.');
+                btn.disabled = false;
+                btn.innerHTML = 'WATCH ADS<span class="sub-text">Earn 10 Points</span>';
+            });
         }
         
         // ============================================================
@@ -873,7 +873,25 @@
         // ============================================================
         function shareLink() {
             var link = document.getElementById('referralLink').textContent;
-            if (navigator.share) {
+            
+            var tg = window.Telegram?.WebApp;
+            if (tg) {
+                tg.showPopup({
+                    title: 'Share Referral Link',
+                    message: 'Copy this link to invite friends:',
+                    buttons: [{ type: 'default', text: '📋 Copy' }]
+                }, function(buttonIndex) {
+                    if (buttonIndex === 0) {
+                        navigator.clipboard.writeText(link).then(function() {
+                            tg.showPopup({
+                                title: '✅ Copied!',
+                                message: 'Referral link copied to clipboard!',
+                                buttons: [{ type: 'ok' }]
+                            });
+                        });
+                    }
+                });
+            } else if (navigator.share) {
                 navigator.share({
                     title: 'Join Ads Arena!',
                     text: 'Earn points by watching ads! Use my referral link:',
@@ -900,6 +918,8 @@
         function closeApp() {
             if (window.Telegram?.WebApp) {
                 window.Telegram.WebApp.close();
+            } else {
+                alert('Close the app from Telegram');
             }
         }
         
