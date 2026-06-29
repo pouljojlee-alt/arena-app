@@ -10,19 +10,11 @@
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
     
-    <!-- ========================================== -->
-    <!-- 🎯 MONETAG REWARDED INTERSTITIAL TAG       -->
-    <!-- ========================================== -->
+    <!-- Monetag SDK -->
     <script src="//libtl.com/sdk.js" data-zone="11083093" data-sdk="show_11083093"></script>
     
     <style>
-        /* ===== RESET & BASE ===== */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: #0a0e17;
@@ -33,7 +25,6 @@
             justify-content: center;
             padding: 20px;
         }
-        
         .app-container {
             max-width: 400px;
             width: 100%;
@@ -41,18 +32,15 @@
             border-radius: 28px;
             padding: 24px 20px 30px;
             box-shadow: 0 20px 60px rgba(0,0,0,0.6);
-            min-height: 680px;
+            min-height: 720px;
             position: relative;
         }
-        
-        /* ===== HEADER ===== */
         .app-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 16px;
         }
-        
         .app-header h1 {
             font-size: 22px;
             font-weight: 700;
@@ -60,7 +48,6 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
-        
         .close-btn {
             background: rgba(255,255,255,0.08);
             border: none;
@@ -70,159 +57,6 @@
             font-size: 13px;
             cursor: pointer;
         }
-        
-        /* ===== ANNOUNCEMENT BANNER ===== */
-        #announcementBanner {
-            display: none;
-            background: linear-gradient(135deg, #1e293b, #0f172a);
-            border-radius: 12px;
-            padding: 14px 16px;
-            margin-bottom: 16px;
-            border: 1px solid rgba(245, 158, 11, 0.3);
-            animation: slideDown 0.4s ease;
-            cursor: pointer;
-            transition: background 0.3s;
-        }
-        
-        #announcementBanner:hover {
-            background: linear-gradient(135deg, #2d3a4f, #1e293b);
-        }
-        
-        @keyframes slideDown {
-            from { opacity: 0; transform: translateY(-20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        #announcementBanner .announcement-flex {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-        }
-        
-        #announcementBanner .announcement-content {
-            flex: 1;
-        }
-        
-        #announcementBanner .announcement-label {
-            font-size: 11px;
-            color: #f59e0b;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        
-        #announcementBanner .announcement-message {
-            font-size: 14px;
-            color: #e2e8f0;
-            line-height: 1.5;
-            margin-top: 2px;
-        }
-        
-        #announcementBanner .announcement-time {
-            font-size: 10px;
-            color: #64748b;
-            margin-top: 4px;
-        }
-        
-        #announcementBanner .announcement-badge {
-            background: #ef4444;
-            color: white;
-            font-size: 10px;
-            font-weight: 700;
-            padding: 2px 10px;
-            border-radius: 20px;
-            margin-left: 8px;
-            flex-shrink: 0;
-        }
-        
-        #announcementBanner .dismiss-btn {
-            background: rgba(255,255,255,0.08);
-            border: none;
-            color: #94a3b8;
-            padding: 2px 10px;
-            border-radius: 20px;
-            cursor: pointer;
-            font-size: 14px;
-            flex-shrink: 0;
-            margin-left: 10px;
-            transition: background 0.2s;
-        }
-        
-        #announcementBanner .dismiss-btn:hover {
-            background: rgba(255,255,255,0.15);
-        }
-        
-        /* ===== ANNOUNCEMENT HISTORY ===== */
-        .announcement-list {
-            margin: 12px 0;
-        }
-        
-        .announcement-item {
-            background: #1e293b;
-            border-radius: 12px;
-            padding: 16px;
-            margin-bottom: 10px;
-            border: 1px solid rgba(255,255,255,0.05);
-            transition: background 0.2s;
-        }
-        
-        .announcement-item:hover {
-            background: #2d3a4f;
-        }
-        
-        .announcement-item .item-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 6px;
-        }
-        
-        .announcement-item .item-title {
-            font-size: 12px;
-            font-weight: 600;
-            color: #f59e0b;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        
-        .announcement-item .item-time {
-            font-size: 11px;
-            color: #64748b;
-        }
-        
-        .announcement-item .item-message {
-            font-size: 14px;
-            color: #e2e8f0;
-            line-height: 1.6;
-        }
-        
-        .announcement-item .item-read {
-            font-size: 10px;
-            color: #10b981;
-            margin-top: 6px;
-            display: inline-block;
-        }
-        
-        .announcement-item .item-unread {
-            font-size: 10px;
-            color: #f59e0b;
-            margin-top: 6px;
-            display: inline-block;
-        }
-        
-        .no-announcements {
-            text-align: center;
-            padding: 40px 20px;
-            color: #64748b;
-        }
-        
-        .no-announcements .icon {
-            font-size: 48px;
-            margin-bottom: 12px;
-            display: block;
-        }
-        
-        /* ===== WEEKLY PROGRESS ===== */
         .weekly-progress {
             background: linear-gradient(135deg, #1e293b, #0f172a);
             border-radius: 16px;
@@ -230,14 +64,12 @@
             margin-bottom: 16px;
             border: 1px solid rgba(255,255,255,0.06);
         }
-        
         .weekly-progress .progress-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 8px;
         }
-        
         .weekly-progress .progress-title {
             font-size: 13px;
             font-weight: 600;
@@ -245,18 +77,12 @@
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
-        
         .weekly-progress .progress-count {
             font-size: 16px;
             font-weight: 700;
             color: #f59e0b;
         }
-        
-        .weekly-progress .progress-count span {
-            color: #64748b;
-            font-weight: 400;
-        }
-        
+        .weekly-progress .progress-count span { color: #64748b; font-weight: 400; }
         .progress-bar-track {
             width: 100%;
             height: 8px;
@@ -265,7 +91,6 @@
             overflow: hidden;
             margin-top: 6px;
         }
-        
         .progress-bar-fill {
             height: 100%;
             background: linear-gradient(90deg, #f59e0b, #ef4444);
@@ -273,7 +98,6 @@
             transition: width 0.5s ease;
             width: 0%;
         }
-        
         .progress-stats {
             display: flex;
             justify-content: space-between;
@@ -281,13 +105,7 @@
             font-size: 11px;
             color: #64748b;
         }
-        
-        .progress-stats .goal-reached {
-            color: #10b981;
-            font-weight: 600;
-        }
-        
-        /* ===== USER PROFILE ===== */
+        .progress-stats .goal-reached { color: #10b981; font-weight: 600; }
         .user-profile {
             background: linear-gradient(135deg, #1e293b, #0f172a);
             border-radius: 16px;
@@ -295,30 +113,15 @@
             margin-bottom: 16px;
             border: 1px solid rgba(255,255,255,0.06);
         }
-        
-        .user-profile .greeting {
-            font-size: 13px;
-            color: #94a3b8;
-        }
-        
-        .user-profile .username {
-            font-size: 20px;
-            font-weight: 600;
-        }
-        
-        .user-profile .user-id {
-            font-size: 12px;
-            color: #475569;
-        }
-        
-        /* ===== STATS CARDS ===== */
+        .user-profile .greeting { font-size: 13px; color: #94a3b8; }
+        .user-profile .username { font-size: 20px; font-weight: 600; }
+        .user-profile .user-id { font-size: 12px; color: #475569; }
         .stats-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 12px;
             margin-bottom: 16px;
         }
-        
         .stat-card {
             background: #1e293b;
             border-radius: 14px;
@@ -326,25 +129,11 @@
             text-align: center;
             border: 1px solid rgba(255,255,255,0.05);
         }
-        
-        .stat-card .label {
-            font-size: 11px;
-            color: #94a3b8;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        
-        .stat-card .value {
-            font-size: 24px;
-            font-weight: 700;
-            margin-top: 4px;
-        }
-        
+        .stat-card .label { font-size: 11px; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.5px; }
+        .stat-card .value { font-size: 24px; font-weight: 700; margin-top: 4px; }
         .stat-card .value.gold { color: #f59e0b; }
         .stat-card .value.green { color: #10b981; }
         .stat-card .value.blue { color: #3b82f6; }
-        
-        /* ===== WATCH ADS BUTTON ===== */
         .watch-btn {
             width: 100%;
             padding: 18px;
@@ -359,30 +148,15 @@
             margin-bottom: 16px;
             box-shadow: 0 8px 24px rgba(245, 158, 11, 0.3);
         }
-        
         .watch-btn:active { transform: scale(0.96); }
-        .watch-btn:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-            transform: none;
-        }
-        
-        .watch-btn .sub-text {
-            display: block;
-            font-size: 13px;
-            font-weight: 400;
-            opacity: 0.85;
-            margin-top: 2px;
-        }
-        
-        /* ===== MENU GRID ===== */
+        .watch-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+        .watch-btn .sub-text { display: block; font-size: 13px; font-weight: 400; opacity: 0.85; margin-top: 2px; }
         .menu-grid {
             display: grid;
             grid-template-columns: 1fr 1fr 1fr 1fr;
             gap: 8px;
             margin-top: 4px;
         }
-        
         .menu-item {
             background: #1e293b;
             border: 1px solid rgba(255,255,255,0.05);
@@ -392,58 +166,23 @@
             cursor: pointer;
             transition: background 0.15s;
         }
-        
         .menu-item:active { background: #2d3a4f; transform: scale(0.97); }
         .menu-item .icon { font-size: 22px; display: block; margin-bottom: 2px; }
         .menu-item .label { font-size: 10px; font-weight: 500; color: #e2e8f0; }
-        .menu-item .badge {
-            font-size: 9px;
-            color: #f59e0b;
-            font-weight: 600;
-            display: block;
-            margin-top: 2px;
-        }
-        .menu-item .notification-dot {
-            display: none;
-            width: 8px;
-            height: 8px;
-            background: #ef4444;
-            border-radius: 50%;
-            margin: 0 auto 2px;
-        }
-        .menu-item .notification-dot.show {
-            display: block;
-        }
-        
-        /* ===== SCREENS ===== */
+        .menu-item .badge { font-size: 9px; color: #f59e0b; font-weight: 600; display: block; margin-top: 2px; }
+        .menu-item .notification-dot { display: none; width: 8px; height: 8px; background: #ef4444; border-radius: 50%; margin: 0 auto 2px; }
+        .menu-item .notification-dot.show { display: block; }
         .screen { display: none; animation: fadeIn 0.3s ease; }
         .screen.active { display: block; }
-        
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(12px); }
             to { opacity: 1; transform: translateY(0); }
         }
-        
-        /* ===== REWARD OVERLAY ===== */
-        .reward-overlay {
-            text-align: center;
-            padding: 40px 20px;
-        }
-        
+        .reward-overlay { text-align: center; padding: 40px 20px; }
         .reward-overlay .emoji { font-size: 64px; display: block; margin-bottom: 12px; }
         .reward-overlay .title { font-size: 28px; font-weight: 700; }
         .reward-overlay .sub-title { font-size: 18px; color: #94a3b8; margin-top: 4px; }
         .reward-overlay .points { font-size: 48px; font-weight: 800; color: #f59e0b; margin: 12px 0 24px; }
-        .reward-overlay .milestone {
-            font-size: 14px;
-            color: #10b981;
-            background: rgba(16, 185, 129, 0.15);
-            padding: 8px 16px;
-            border-radius: 20px;
-            display: inline-block;
-            margin-bottom: 20px;
-        }
-        
         .continue-btn {
             padding: 14px 50px;
             background: #f59e0b;
@@ -455,10 +194,7 @@
             cursor: pointer;
             box-shadow: 0 6px 20px rgba(245, 158, 11, 0.3);
         }
-        
         .continue-btn:active { transform: scale(0.96); }
-        
-        /* ===== REFERRAL SCREEN ===== */
         .referral-box {
             background: #1e293b;
             border-radius: 14px;
@@ -467,7 +203,6 @@
             text-align: center;
             border: 1px solid rgba(255,255,255,0.05);
         }
-        
         .referral-box .link {
             background: #0f172a;
             padding: 12px;
@@ -478,7 +213,6 @@
             margin: 10px 0;
             font-family: monospace;
         }
-        
         .share-btn {
             padding: 12px 40px;
             background: #3b82f6;
@@ -490,12 +224,8 @@
             cursor: pointer;
             box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
         }
-        
         .share-btn:active { transform: scale(0.96); }
-        
-        /* ===== RANKING SCREEN ===== */
         .rank-list { margin: 12px 0; }
-        
         .rank-item {
             display: flex;
             justify-content: space-between;
@@ -506,25 +236,14 @@
             margin-bottom: 6px;
             border-left: 3px solid transparent;
         }
-        
         .rank-item.top1 { border-left-color: #f59e0b; background: #2d1f0a; }
         .rank-item.top2 { border-left-color: #94a3b8; background: #1a1e24; }
         .rank-item.top3 { border-left-color: #cd7f32; background: #1f1810; }
         .rank-item.you { border-left-color: #3b82f6; background: #0f1f3a; }
-        
         .rank-item .rank-num { font-weight: 700; color: #64748b; width: 30px; font-size: 14px; }
         .rank-item .rank-name { flex: 1; margin-left: 10px; font-weight: 500; font-size: 14px; }
         .rank-item .rank-points { font-weight: 600; color: #f59e0b; font-size: 14px; }
-        .rank-item .you-badge {
-            font-size: 10px;
-            background: #3b82f6;
-            padding: 2px 10px;
-            border-radius: 20px;
-            margin-left: 8px;
-            font-weight: 600;
-        }
-        
-        /* ===== BACK BUTTON ===== */
+        .rank-item .you-badge { font-size: 10px; background: #3b82f6; padding: 2px 10px; border-radius: 20px; margin-left: 8px; font-weight: 600; }
         .back-btn {
             background: rgba(255,255,255,0.08);
             border: none;
@@ -535,11 +254,8 @@
             cursor: pointer;
             margin-bottom: 16px;
         }
-        
         .screen-title { font-size: 20px; font-weight: 600; margin-bottom: 4px; }
         .screen-subtitle { color: #94a3b8; font-size: 14px; margin-bottom: 16px; }
-        
-        /* ===== LOADING ===== */
         .loading { text-align: center; padding: 40px 0; color: #64748b; }
         .loading .spinner {
             width: 36px;
@@ -554,8 +270,22 @@
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
-        
-        /* ===== RESPONSIVE ===== */
+        .announcement-list { margin: 12px 0; }
+        .announcement-item {
+            background: #1e293b;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 10px;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+        .announcement-item .item-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+        .announcement-item .item-title { font-size: 12px; font-weight: 600; color: #f59e0b; text-transform: uppercase; }
+        .announcement-item .item-time { font-size: 11px; color: #64748b; }
+        .announcement-item .item-message { font-size: 14px; color: #e2e8f0; line-height: 1.6; }
+        .announcement-item .item-read { font-size: 10px; color: #10b981; margin-top: 6px; display: inline-block; }
+        .announcement-item .item-unread { font-size: 10px; color: #f59e0b; margin-top: 6px; display: inline-block; }
+        .no-announcements { text-align: center; padding: 40px 20px; color: #64748b; }
+        .no-announcements .icon { font-size: 48px; margin-bottom: 12px; display: block; }
         @media (max-width: 420px) {
             body { padding: 12px; }
             .app-container { padding: 16px; border-radius: 20px; min-height: 600px; }
@@ -567,25 +297,56 @@
             .weekly-progress { padding: 14px; }
             .weekly-progress .progress-count { font-size: 14px; }
         }
-        
         @media (max-width: 360px) {
             .app-container { padding: 12px; border-radius: 16px; min-height: 520px; }
             .stat-card { padding: 10px; }
             .stat-card .value { font-size: 18px; }
             .menu-grid { grid-template-columns: 1fr 1fr; }
         }
+        #announcementBanner {
+            display: none;
+            background: linear-gradient(135deg, #1e293b, #0f172a);
+            border-radius: 12px;
+            padding: 14px 16px;
+            margin-bottom: 16px;
+            border: 1px solid rgba(245, 158, 11, 0.3);
+            animation: slideDown 0.4s ease;
+            cursor: pointer;
+        }
+        #announcementBanner:hover { background: linear-gradient(135deg, #2d3a4f, #1e293b); }
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        #announcementBanner .announcement-flex { display: flex; justify-content: space-between; align-items: flex-start; }
+        #announcementBanner .announcement-content { flex: 1; }
+        #announcementBanner .announcement-label { font-size: 11px; color: #f59e0b; font-weight: 700; text-transform: uppercase; }
+        #announcementBanner .announcement-message { font-size: 14px; color: #e2e8f0; line-height: 1.5; margin-top: 2px; }
+        #announcementBanner .announcement-time { font-size: 10px; color: #64748b; margin-top: 4px; }
+        #announcementBanner .announcement-badge { background: #ef4444; color: white; font-size: 10px; font-weight: 700; padding: 2px 10px; border-radius: 20px; margin-left: 8px; flex-shrink: 0; }
+        #announcementBanner .dismiss-btn {
+            background: rgba(255,255,255,0.08);
+            border: none;
+            color: #94a3b8;
+            padding: 2px 10px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 14px;
+            flex-shrink: 0;
+            margin-left: 10px;
+        }
+        #announcementBanner .dismiss-btn:hover { background: rgba(255,255,255,0.15); }
     </style>
 </head>
 <body>
     <div class="app-container" id="app">
-        <!-- ===== HOME SCREEN ===== -->
+        <!-- HOME SCREEN -->
         <div class="screen active" id="homeScreen">
             <div class="app-header">
                 <h1>ARENA</h1>
                 <button class="close-btn" onclick="closeApp()">✕ Close</button>
             </div>
             
-            <!-- ===== ANNOUNCEMENT BANNER ===== -->
             <div id="announcementBanner" onclick="showScreen('announcementScreen')">
                 <div class="announcement-flex">
                     <div class="announcement-content">
@@ -598,8 +359,7 @@
                 </div>
             </div>
             
-            <!-- Weekly Progress -->
-            <div class="weekly-progress" id="weeklyProgress">
+            <div class="weekly-progress">
                 <div class="progress-header">
                     <span class="progress-title">📊 Weekly Goal</span>
                     <span class="progress-count" id="weeklyCount">0 <span>/ 10,000</span></span>
@@ -613,14 +373,12 @@
                 </div>
             </div>
             
-            <!-- User Profile -->
             <div class="user-profile">
                 <div class="greeting">Welcome,</div>
                 <div class="username" id="displayName">Arena Player</div>
                 <div class="user-id" id="displayId">ID: 123456789</div>
             </div>
             
-            <!-- Stats -->
             <div class="stats-grid">
                 <div class="stat-card">
                     <div class="label">Today's Ads</div>
@@ -640,13 +398,11 @@
                 </div>
             </div>
             
-            <!-- Watch Ad Button -->
             <button class="watch-btn" id="watchBtn" onclick="watchAd()">
                 WATCH ADS
                 <span class="sub-text" id="watchSubText">Earn 10 Points</span>
             </button>
             
-            <!-- Menu -->
             <div class="menu-grid">
                 <div class="menu-item" onclick="showScreen('referralScreen')">
                     <span class="icon">👥</span>
@@ -671,32 +427,27 @@
             </div>
         </div>
         
-        <!-- ===== REWARD SCREEN ===== -->
+        <!-- REWARD SCREEN -->
         <div class="screen" id="rewardScreen">
             <div class="reward-overlay">
                 <span class="emoji" id="rewardEmoji">🎉</span>
-                <div class="title" id="rewardTitle">Great!</div>
+                <div class="title">Great!</div>
                 <div class="sub-title">You earned</div>
                 <div class="points" id="rewardPoints">+10 Points</div>
-                <div id="milestoneMessage" style="display:none;">
-                    <div class="milestone" id="milestoneText">🏆 Milestone Reached!</div>
-                </div>
                 <button class="continue-btn" onclick="showScreen('homeScreen')">Continue</button>
             </div>
         </div>
         
-        <!-- ===== REFERRAL SCREEN ===== -->
+        <!-- REFERRAL SCREEN -->
         <div class="screen" id="referralScreen">
             <button class="back-btn" onclick="showScreen('homeScreen')">← Back</button>
             <div class="screen-title">Invite Friends</div>
             <div class="screen-subtitle">Invite friends and earn 10% of their points.</div>
-            
             <div class="referral-box">
                 <div style="font-size:13px; color:#94a3b8; margin-bottom:6px;">Your Referral Link</div>
                 <div class="link" id="referralLink">Loading...</div>
                 <button class="share-btn" onclick="shareLink()">📤 SHARE LINK</button>
             </div>
-            
             <div class="stats-grid" style="margin-top:16px;">
                 <div class="stat-card">
                     <div class="label">Total Referrals</div>
@@ -709,38 +460,34 @@
             </div>
         </div>
         
-        <!-- ===== RANKING SCREEN ===== -->
+        <!-- RANKING SCREEN -->
         <div class="screen" id="rankingScreen">
             <button class="back-btn" onclick="showScreen('homeScreen')">← Back</button>
             <div class="screen-title">Top Players</div>
             <div class="screen-subtitle">See who's leading the arena</div>
-            
             <div class="rank-list" id="rankList">
                 <div class="loading"><div class="spinner"></div>Loading rankings...</div>
             </div>
-            
             <div style="margin-top:16px; text-align:center; color:#64748b; font-size:14px; padding:12px; background:#1e293b; border-radius:10px;">
                 My Rank: <span style="color:#f59e0b; font-weight:700;" id="myRankDisplay">#--</span>
             </div>
         </div>
         
-        <!-- ===== ANNOUNCEMENT SCREEN ===== -->
+        <!-- ANNOUNCEMENT SCREEN -->
         <div class="screen" id="announcementScreen">
             <button class="back-btn" onclick="showScreen('homeScreen')">← Back</button>
             <div class="screen-title">📢 Announcements</div>
             <div class="screen-subtitle">All updates from the admin</div>
-            
             <div class="announcement-list" id="announcementList">
                 <div class="loading"><div class="spinner"></div>Loading announcements...</div>
             </div>
         </div>
         
-        <!-- ===== HISTORY SCREEN ===== -->
+        <!-- HISTORY SCREEN -->
         <div class="screen" id="historyScreen">
             <button class="back-btn" onclick="showScreen('homeScreen')">← Back</button>
             <div class="screen-title">📊 Your Stats</div>
             <div class="screen-subtitle">Track your progress</div>
-            
             <div class="stats-grid" style="margin-bottom:16px;">
                 <div class="stat-card">
                     <div class="label">Today</div>
@@ -759,7 +506,6 @@
                     <div class="value gold" id="historyAllTime">0</div>
                 </div>
             </div>
-            
             <div style="background:#1e293b; border-radius:14px; padding:16px; border:1px solid rgba(255,255,255,0.05);">
                 <div style="display:flex; justify-content:space-between; margin-bottom:8px; font-size:13px; color:#94a3b8;">
                     <span>Weekly Goal Progress</span>
@@ -777,7 +523,7 @@
 
     <script>
         // ============================================================
-        // 🔥 FIREBASE CONFIG
+        // 🔥 FIREBASE CONFIG - VERIFIED
         // ============================================================
         var firebaseConfig = {
             apiKey: "AIzaSyAUqpShBzjFHn-HVpwU4dx28TLQjuoa-FU",
@@ -790,16 +536,27 @@
             measurementId: "G-PCPN7MG7ZG"
         };
         
+        // Initialize Firebase
         firebase.initializeApp(firebaseConfig);
         var db = firebase.firestore();
+        
+        // Enable offline persistence
+        db.enablePersistence().catch(function(err) {
+            console.log('Firebase persistence error:', err);
+        });
+        
         var userId = null;
         var WEEKLY_GOAL = 10000;
         var unreadAnnouncements = 0;
+        var adInProgress = false;
         
         // ============================================================
         // 🚀 INIT - Get User from Telegram
         // ============================================================
         function initApp() {
+            console.log('🚀 App initializing...');
+            
+            // Check if running in Telegram
             var tg = window.Telegram?.WebApp;
             if (tg) {
                 tg.expand();
@@ -809,13 +566,16 @@
                     document.getElementById('displayName').textContent = user.first_name || 'Arena Player';
                     document.getElementById('displayId').textContent = 'ID: ' + userId;
                     document.getElementById('referralLink').textContent = 'https://t.me/arena_bot?start=' + userId;
+                    console.log('✅ Telegram user detected:', userId);
                 }
             }
             
+            // Fallback for testing
             if (!userId) {
                 userId = '123456789';
                 document.getElementById('displayId').textContent = 'ID: 123456789';
                 document.getElementById('referralLink').textContent = 'https://t.me/arena_bot?start=123456789';
+                console.log('⚠️ Using fallback user ID');
             }
             
             loadUserData();
@@ -826,13 +586,36 @@
         // ============================================================
         async function loadUserData() {
             try {
-                var docRef = db.collection('users').doc(userId);
-                var doc = await docRef.get();
-                var data = {};
+                console.log('📥 Loading user data for:', userId);
                 
-                if (doc.exists) {
-                    data = doc.data();
+                // Check if user exists in Firebase
+                var docRef = db.collection('users').doc(userId.toString());
+                var doc = await docRef.get();
+                
+                if (!doc.exists) {
+                    console.log('👤 New user detected, creating profile...');
+                    // Create new user profile
+                    await docRef.set({
+                        displayName: document.getElementById('displayName').textContent,
+                        userId: userId.toString(),
+                        points: 0,
+                        allTimeAds: 0,
+                        dailyAds: {},
+                        weeklyAds: {},
+                        monthlyAds: {},
+                        totalReferrals: 0,
+                        referralEarnings: 0,
+                        rank: 6,
+                        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                        lastActive: firebase.firestore.FieldValue.serverTimestamp()
+                    });
+                    console.log('✅ New user profile created');
                 }
+                
+                // Get updated user data
+                doc = await docRef.get();
+                var data = doc.data();
+                console.log('📊 User data loaded:', data);
                 
                 var todayKey = new Date().toISOString().split('T')[0];
                 var weekKey = getWeekKey();
@@ -877,17 +660,20 @@
                     document.getElementById('progressStatus').className = 'progress-stats goal-reached';
                     document.getElementById('watchSubText').textContent = '🎯 Goal Complete! Amazing!';
                 } else {
-                    document.getElementById('progressStatus').textContent = '🎯 ' + (WEEKLY_GOAL - weekCount) + ' ads to go!';
+                    var remaining = WEEKLY_GOAL - weekCount;
+                    document.getElementById('progressStatus').textContent = '🎯 ' + remaining + ' ads to go!';
                     document.getElementById('progressStatus').className = 'progress-stats';
                     document.getElementById('watchSubText').textContent = 'Earn 10 Points';
                 }
                 
-                // Check announcements
+                // Load announcements
                 await loadAnnouncements(data);
-                
                 loadRankings();
+                
             } catch (error) {
-                console.error('Error:', error);
+                console.error('❌ Error loading user data:', error);
+                // Show error on screen
+                document.getElementById('displayName').textContent = '⚠️ Error loading data';
             }
         }
         
@@ -897,12 +683,10 @@
         async function loadAnnouncements(data) {
             try {
                 var announcements = data.announcements || [];
-                var lastAnnouncement = data.lastAnnouncement || null;
+                var unread = announcements.filter(function(a) { return !a.read; });
+                unreadAnnouncements = unread.length;
                 
-                // Count unread
-                unreadAnnouncements = announcements.filter(function(a) { return !a.read; }).length;
-                
-                // Show notification dot if unread
+                // Show notification dot
                 var dot = document.getElementById('notificationDot');
                 if (unreadAnnouncements > 0) {
                     dot.className = 'notification-dot show';
@@ -910,20 +694,15 @@
                     dot.className = 'notification-dot';
                 }
                 
-                // Show latest announcement as banner
+                // Show banner if unread
                 if (unreadAnnouncements > 0) {
-                    var latest = announcements.filter(function(a) { return !a.read; })[0];
+                    var latest = unread[0];
                     showBanner(latest.message, latest.timestamp);
-                } else if (announcements.length > 0) {
-                    // If all read, show the latest as "viewed"
-                    var latestAll = announcements[announcements.length - 1];
-                    // Don't show banner if no unread
-                    document.getElementById('announcementBanner').style.display = 'none';
                 } else {
                     document.getElementById('announcementBanner').style.display = 'none';
                 }
                 
-                // Render full announcement list
+                // Render full list
                 renderAnnouncementList(announcements);
                 
             } catch (error) {
@@ -933,23 +712,11 @@
         
         function showBanner(message, timestamp) {
             var banner = document.getElementById('announcementBanner');
-            var msgEl = document.getElementById('announcementMessage');
-            var timeEl = document.getElementById('announcementTime');
-            var badge = document.getElementById('unreadBadge');
-            
-            msgEl.textContent = message;
+            document.getElementById('announcementMessage').textContent = message;
             if (timestamp) {
-                timeEl.textContent = '📅 ' + new Date(timestamp).toLocaleString();
-            } else {
-                timeEl.textContent = '';
+                document.getElementById('announcementTime').textContent = '📅 ' + new Date(timestamp).toLocaleString();
             }
-            
-            if (unreadAnnouncements > 1) {
-                badge.textContent = unreadAnnouncements + ' NEW';
-            } else {
-                badge.textContent = 'NEW';
-            }
-            
+            document.getElementById('unreadBadge').textContent = unreadAnnouncements > 1 ? unreadAnnouncements + ' NEW' : 'NEW';
             banner.style.display = 'block';
         }
         
@@ -961,17 +728,10 @@
             var listEl = document.getElementById('announcementList');
             
             if (!announcements || announcements.length === 0) {
-                listEl.innerHTML = `
-                    <div class="no-announcements">
-                        <span class="icon">📭</span>
-                        No announcements yet.<br>
-                        Check back later for updates!
-                    </div>
-                `;
+                listEl.innerHTML = '<div class="no-announcements"><span class="icon">📭</span>No announcements yet.<br>Check back later for updates!</div>';
                 return;
             }
             
-            // Show from newest to oldest (reverse)
             var reversed = announcements.slice().reverse();
             var html = '';
             
@@ -982,16 +742,7 @@
                 var timestamp = announcement.timestamp || 'Just now';
                 var displayTime = typeof timestamp === 'string' ? timestamp : new Date(timestamp).toLocaleString();
                 
-                html += `
-                    <div class="announcement-item">
-                        <div class="item-header">
-                            <span class="item-title">📢 Announcement</span>
-                            <span class="item-time">${displayTime}</span>
-                        </div>
-                        <div class="item-message">${announcement.message}</div>
-                        <span class="${statusClass}">${statusText}</span>
-                    </div>
-                `;
+                html += '<div class="announcement-item"><div class="item-header"><span class="item-title">📢 Announcement</span><span class="item-time">' + displayTime + '</span></div><div class="item-message">' + announcement.message + '</div><span class="' + statusClass + '">' + statusText + '</span></div>';
             });
             
             listEl.innerHTML = html;
@@ -1018,37 +769,63 @@
         }
         
         // ============================================================
-        // 👁️ WATCH AD - WITH MONETAG INTEGRATION
+        // 👁️ WATCH AD - WITH MONETAG
         // ============================================================
         function watchAd() {
-            var btn = document.getElementById('watchBtn');
-            
-            if (typeof show_11083093 === 'undefined') {
-                alert('Ad service is not available. Please try again later.');
+            if (adInProgress) {
+                console.log('⏳ Ad already in progress');
                 return;
             }
             
+            var btn = document.getElementById('watchBtn');
+            
+            // Check if Monetag is available
+            if (typeof show_11083093 === 'undefined') {
+                console.error('❌ Monetag SDK not loaded');
+                alert('Ad service is loading. Please try again in a moment.');
+                return;
+            }
+            
+            console.log('👁️ Starting ad...');
+            adInProgress = true;
             btn.disabled = true;
             btn.innerHTML = '⏳ Loading ad...';
             
-            show_11083093().then(function() {
-                showScreen('rewardScreen');
+            // Call Monetag with timeout
+            Promise.race([
+                show_11083093(),
+                new Promise(function(_, reject) {
+                    setTimeout(function() {
+                        reject(new Error('Ad timeout (30s)'));
+                    }, 30000);
+                })
+            ]).then(function() {
+                console.log('✅ Ad watched successfully');
                 
+                // Show reward screen
+                showScreen('rewardScreen');
+                document.getElementById('rewardEmoji').textContent = '🎉';
+                document.getElementById('rewardPoints').textContent = '+10 Points';
+                
+                // Save to Firebase
                 var todayKey = new Date().toISOString().split('T')[0];
                 var weekKey = getWeekKey();
                 var monthKey = new Date().getFullYear() + '-' + (new Date().getMonth() + 1);
                 
-                var docRef = db.collection('users').doc(userId);
-                
+                var docRef = db.collection('users').doc(userId.toString());
                 var updates = {
                     points: firebase.firestore.FieldValue.increment(10),
                     allTimeAds: firebase.firestore.FieldValue.increment(1),
                     ['dailyAds.' + todayKey]: firebase.firestore.FieldValue.increment(1),
                     ['weeklyAds.' + weekKey]: firebase.firestore.FieldValue.increment(1),
-                    ['monthlyAds.' + monthKey]: firebase.firestore.FieldValue.increment(1)
+                    ['monthlyAds.' + monthKey]: firebase.firestore.FieldValue.increment(1),
+                    lastActive: firebase.firestore.FieldValue.serverTimestamp()
                 };
                 
                 docRef.update(updates).then(function() {
+                    console.log('✅ Points saved to Firebase');
+                    
+                    // Update UI
                     var pointsEl = document.getElementById('userPoints');
                     var currentPoints = parseInt(pointsEl.textContent.replace(/,/g, '')) || 0;
                     pointsEl.textContent = (currentPoints + 10).toLocaleString();
@@ -1068,38 +845,32 @@
                     
                     updateWeeklyProgress(newWeek);
                     
-                    var isGoalReached = newWeek >= WEEKLY_GOAL;
-                    var rewardEmoji = '🎉';
-                    
-                    if (isGoalReached) {
-                        rewardEmoji = '🏆';
-                        document.getElementById('milestoneMessage').style.display = 'block';
-                        document.getElementById('milestoneText').textContent = '🏆 10,000 Ads Reached! Amazing!';
+                    if (newWeek >= WEEKLY_GOAL) {
                         document.getElementById('watchSubText').textContent = '🎯 Goal Complete!';
                         document.getElementById('progressStatus').textContent = '✅ GOAL REACHED! 🎉';
                         document.getElementById('progressStatus').className = 'progress-stats goal-reached';
                     } else {
-                        document.getElementById('milestoneMessage').style.display = 'none';
                         document.getElementById('watchSubText').textContent = 'Earn 10 Points';
                         document.getElementById('progressStatus').textContent = '🎯 ' + (WEEKLY_GOAL - newWeek) + ' ads to go!';
                         document.getElementById('progressStatus').className = 'progress-stats';
                     }
                     
-                    document.getElementById('rewardEmoji').textContent = rewardEmoji;
-                    document.getElementById('rewardPoints').textContent = '+10 Points';
-                    
+                    adInProgress = false;
                     btn.disabled = false;
                     btn.innerHTML = 'WATCH ADS<span class="sub-text" id="watchSubText">Earn 10 Points</span>';
                     
                 }).catch(function(error) {
-                    console.error('Error updating points:', error);
-                    alert('Error saving your reward. Please try again.');
+                    console.error('❌ Error saving points:', error);
+                    alert('Error saving reward. Please try again.');
+                    adInProgress = false;
                     btn.disabled = false;
                     btn.innerHTML = 'WATCH ADS<span class="sub-text">Earn 10 Points</span>';
                 });
+                
             }).catch(function(error) {
-                console.error('Ad failed:', error);
+                console.error('❌ Ad failed:', error);
                 alert('Ad failed to load. Please try again.');
+                adInProgress = false;
                 btn.disabled = false;
                 btn.innerHTML = 'WATCH ADS<span class="sub-text">Earn 10 Points</span>';
             });
@@ -1127,7 +898,7 @@
                 
                 snapshot.forEach(function(doc) {
                     var data = doc.data();
-                    var isYou = doc.id === userId;
+                    var isYou = doc.id === userId.toString();
                     if (isYou) userRank = rank;
                     
                     var div = document.createElement('div');
@@ -1146,10 +917,10 @@
                 
                 document.getElementById('userRankBadge').textContent = '#' + userRank;
                 document.getElementById('myRankDisplay').textContent = '#' + userRank;
-                db.collection('users').doc(userId).update({ rank: userRank }).catch(function() {});
+                db.collection('users').doc(userId.toString()).update({ rank: userRank }).catch(function() {});
                 
             } catch (error) {
-                console.error('Error:', error);
+                console.error('Error loading rankings:', error);
                 document.getElementById('rankList').innerHTML = '<div class="loading">Unable to load rankings</div>';
             }
         }
