@@ -550,19 +550,25 @@
         // ============================================================
         function initApp() {
             console.log('🚀 App initializing...');
+            console.log('🔍 Checking for Telegram WebApp...');
+            console.log('window.Telegram:', window.Telegram);
             
             // Check if running inside Telegram WebApp
             var tg = window.Telegram?.WebApp;
             
             if (tg) {
+                console.log('✅ Telegram WebApp detected');
+                console.log('tg.initDataUnsafe:', tg.initDataUnsafe);
+                
                 // Expand the app to full screen
                 tg.expand();
-                console.log('✅ Telegram WebApp detected');
                 
                 // Get user data from Telegram
                 if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
                     var user = tg.initDataUnsafe.user;
-                    userId = user.id.toString();
+                    console.log('👤 User object from Telegram:', user);
+                    
+                    userId = user.id ? user.id.toString() : null;
                     
                     // Get full name
                     var firstName = user.first_name || '';
@@ -586,9 +592,11 @@
                     document.getElementById('referralLink').textContent = 'https://t.me/arena_bot?start=' + userId;
                 } else {
                     console.warn('⚠️ Telegram user data not available in initDataUnsafe');
+                    console.log('tg.initDataUnsafe:', tg.initDataUnsafe);
                 }
             } else {
                 console.warn('⚠️ Not running inside Telegram WebApp - using fallback');
+                console.log('window.Telegram is:', window.Telegram);
             }
             
             // Fallback if no user ID was detected
@@ -632,12 +640,14 @@
                         lastActive: firebase.firestore.FieldValue.serverTimestamp()
                     });
                     console.log('✅ New user profile created with name:', userName);
+                } else {
+                    console.log('✅ User already exists in Firebase');
                 }
                 
                 // Get updated data
                 doc = await docRef.get();
                 var data = doc.data();
-                console.log('📊 User data loaded successfully');
+                console.log('📊 User data loaded successfully:', data);
                 
                 // Update UI with user data from Firebase
                 if (data.displayName) {
@@ -806,7 +816,7 @@
         }
         
         // ============================================================
-        // 👁️ WATCH AD
+        // 👁️ WATCH AD - FIXED
         // ============================================================
         function watchAd() {
             if (adInProgress) {
@@ -827,15 +837,11 @@
             btn.disabled = true;
             btn.innerHTML = '⏳ Loading ad...';
             
-            Promise.race([
-                show_11083093(),
-                new Promise(function(_, reject) {
-                    setTimeout(function() {
-                        reject(new Error('Ad timeout (30s)'));
-                    }, 30000);
-                })
-            ]).then(function() {
+            // Call Monetag
+            show_11083093().then(function() {
                 console.log('✅ Ad watched successfully');
+                
+                // Show reward screen
                 showScreen('rewardScreen');
                 document.getElementById('rewardEmoji').textContent = '🎉';
                 document.getElementById('rewardPoints').textContent = '+10 Points';
@@ -857,6 +863,7 @@
                 docRef.update(updates).then(function() {
                     console.log('✅ Points saved to Firebase');
                     
+                    // Update UI
                     var pointsEl = document.getElementById('userPoints');
                     var currentPoints = parseInt(pointsEl.textContent.replace(/,/g, '')) || 0;
                     pointsEl.textContent = (currentPoints + 10).toLocaleString();
