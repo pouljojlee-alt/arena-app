@@ -14,7 +14,11 @@
     <script src="//libtl.com/sdk.js" data-zone="11083093" data-sdk="show_11083093"></script>
     
     <style>
+        /* ============================================================
+           COMPLETE STYLES
+           ============================================================ */
         * { margin: 0; padding: 0; box-sizing: border-box; }
+        
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: #0a0e17;
@@ -26,6 +30,7 @@
             padding: 16px;
             overflow: hidden;
         }
+        
         .app-container {
             max-width: 420px;
             width: 100%;
@@ -39,7 +44,7 @@
         }
         
         /* ============================================================
-           SPLASH SCREEN (3 Seconds)
+           SPLASH SCREEN
            ============================================================ */
         #splashScreen {
             position: absolute;
@@ -115,10 +120,7 @@
             text-align: center;
         }
         
-        #splashScreen .splash-creator span {
-            color: #f59e0b;
-            font-weight: 700;
-        }
+        #splashScreen .splash-creator span { color: #f59e0b; font-weight: 700; }
         
         .splash-loader {
             margin-top: 24px;
@@ -130,13 +132,10 @@
             animation: spin 0.8s linear infinite;
         }
         
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
         
         /* ============================================================
-           MAIN APP STYLES
+           HEADER
            ============================================================ */
         .app-header {
             display: flex;
@@ -144,6 +143,7 @@
             align-items: center;
             margin-bottom: 16px;
         }
+        
         .app-header h1 {
             font-size: 24px;
             font-weight: 800;
@@ -152,6 +152,7 @@
             -webkit-text-fill-color: transparent;
             letter-spacing: -0.5px;
         }
+        
         .close-btn {
             background: rgba(255,255,255,0.08);
             border: none;
@@ -160,9 +161,14 @@
             border-radius: 16px;
             font-size: 12px;
             cursor: pointer;
+            transition: background 0.2s;
         }
         
-        /* Announcement Banner */
+        .close-btn:hover { background: rgba(255,255,255,0.15); }
+        
+        /* ============================================================
+           ANNOUNCEMENT BANNER
+           ============================================================ */
         #announcementBanner {
             display: none;
             background: linear-gradient(135deg, #1e293b, #0f172a);
@@ -172,20 +178,74 @@
             border: 1px solid rgba(245, 158, 11, 0.25);
             cursor: pointer;
             animation: slideDown 0.4s ease;
+            transition: background 0.3s;
         }
+        
+        #announcementBanner:hover { background: linear-gradient(135deg, #2d3a4f, #1e293b); }
+        
         @keyframes slideDown {
             from { opacity: 0; transform: translateY(-15px); }
             to { opacity: 1; transform: translateY(0); }
         }
-        #announcementBanner .announcement-flex { display: flex; justify-content: space-between; align-items: flex-start; }
-        #announcementBanner .announcement-content { flex: 1; }
-        #announcementBanner .announcement-label { font-size: 10px; color: #f59e0b; font-weight: 700; text-transform: uppercase; }
-        #announcementBanner .announcement-message { font-size: 13px; color: #e2e8f0; line-height: 1.4; margin-top: 2px; }
-        #announcementBanner .announcement-time { font-size: 9px; color: #64748b; margin-top: 3px; }
-        #announcementBanner .announcement-badge { background: #ef4444; color: white; font-size: 9px; font-weight: 700; padding: 2px 8px; border-radius: 12px; margin-left: 8px; flex-shrink: 0; }
-        #announcementBanner .dismiss-btn { background: rgba(255,255,255,0.08); border: none; color: #94a3b8; padding: 0 8px; border-radius: 12px; cursor: pointer; font-size: 14px; flex-shrink: 0; margin-left: 8px; }
         
-        /* User Profile */
+        #announcementBanner .announcement-flex {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+        
+        #announcementBanner .announcement-content { flex: 1; }
+        
+        #announcementBanner .announcement-label {
+            font-size: 10px;
+            color: #f59e0b;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        #announcementBanner .announcement-message {
+            font-size: 13px;
+            color: #e2e8f0;
+            line-height: 1.4;
+            margin-top: 2px;
+        }
+        
+        #announcementBanner .announcement-time {
+            font-size: 9px;
+            color: #64748b;
+            margin-top: 3px;
+        }
+        
+        #announcementBanner .announcement-badge {
+            background: #ef4444;
+            color: white;
+            font-size: 9px;
+            font-weight: 700;
+            padding: 2px 8px;
+            border-radius: 12px;
+            margin-left: 8px;
+            flex-shrink: 0;
+        }
+        
+        #announcementBanner .dismiss-btn {
+            background: rgba(255,255,255,0.08);
+            border: none;
+            color: #94a3b8;
+            padding: 0 8px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 14px;
+            flex-shrink: 0;
+            margin-left: 10px;
+            transition: background 0.2s;
+        }
+        
+        #announcementBanner .dismiss-btn:hover { background: rgba(255,255,255,0.15); }
+        
+        /* ============================================================
+           USER PROFILE
+           ============================================================ */
         .user-profile {
             background: linear-gradient(135deg, #1e293b, #0f172a);
             border-radius: 16px;
@@ -193,30 +253,53 @@
             margin-bottom: 16px;
             border: 1px solid rgba(255,255,255,0.05);
         }
+        
         .user-profile .greeting { font-size: 12px; color: #94a3b8; }
+        
         .user-profile .username { font-size: 20px; font-weight: 700; }
+        
         .user-profile .user-id { font-size: 11px; color: #475569; margin-top: 2px; }
         
-        /* Stats Cards */
+        /* ============================================================
+           STATS CARDS
+           ============================================================ */
         .stats-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 12px;
             margin-bottom: 16px;
         }
+        
         .stat-card {
             background: #1e293b;
             border-radius: 14px;
             padding: 14px 12px;
             text-align: center;
             border: 1px solid rgba(255,255,255,0.05);
+            transition: transform 0.2s;
         }
-        .stat-card .label { font-size: 10px; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.5px; }
-        .stat-card .value { font-size: 24px; font-weight: 700; margin-top: 2px; }
+        
+        .stat-card:hover { transform: translateY(-2px); }
+        
+        .stat-card .label {
+            font-size: 10px;
+            color: #94a3b8;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .stat-card .value {
+            font-size: 24px;
+            font-weight: 700;
+            margin-top: 2px;
+        }
+        
         .stat-card .value.gold { color: #f59e0b; }
         .stat-card .value.green { color: #10b981; }
         
-        /* Weekly Goal */
+        /* ============================================================
+           WEEKLY GOAL
+           ============================================================ */
         .weekly-goal {
             background: linear-gradient(135deg, #1e293b, #0f172a);
             border-radius: 14px;
@@ -224,16 +307,59 @@
             margin-bottom: 16px;
             border: 1px solid rgba(255,255,255,0.05);
         }
-        .weekly-goal .goal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
-        .weekly-goal .goal-title { font-size: 12px; font-weight: 600; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.5px; }
-        .weekly-goal .goal-count { font-size: 14px; font-weight: 700; color: #f59e0b; }
+        
+        .weekly-goal .goal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 6px;
+        }
+        
+        .weekly-goal .goal-title {
+            font-size: 12px;
+            font-weight: 600;
+            color: #94a3b8;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .weekly-goal .goal-count {
+            font-size: 14px;
+            font-weight: 700;
+            color: #f59e0b;
+        }
+        
         .weekly-goal .goal-count span { color: #64748b; font-weight: 400; }
-        .weekly-goal .progress-track { width: 100%; height: 6px; background: #1e293b; border-radius: 10px; overflow: hidden; }
-        .weekly-goal .progress-fill { height: 100%; background: linear-gradient(90deg, #f59e0b, #ef4444); border-radius: 10px; transition: width 0.5s ease; width: 0%; }
-        .weekly-goal .goal-stats { display: flex; justify-content: space-between; margin-top: 4px; font-size: 10px; color: #64748b; }
+        
+        .weekly-goal .progress-track {
+            width: 100%;
+            height: 6px;
+            background: #1e293b;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        
+        .weekly-goal .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #f59e0b, #ef4444);
+            border-radius: 10px;
+            transition: width 0.5s ease;
+            width: 0%;
+        }
+        
+        .weekly-goal .goal-stats {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 4px;
+            font-size: 10px;
+            color: #64748b;
+        }
+        
         .weekly-goal .goal-stats .reached { color: #10b981; font-weight: 600; }
         
-        /* Watch Button */
+        /* ============================================================
+           WATCH ADS BUTTON
+           ============================================================ */
         .watch-btn {
             width: 100%;
             padding: 16px;
@@ -248,11 +374,21 @@
             margin-bottom: 16px;
             box-shadow: 0 6px 20px rgba(245, 158, 11, 0.3);
         }
+        
         .watch-btn:active { transform: scale(0.97); }
         .watch-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
-        .watch-btn .sub-text { display: block; font-size: 12px; font-weight: 400; opacity: 0.85; margin-top: 2px; }
         
-        /* Bottom Navigation */
+        .watch-btn .sub-text {
+            display: block;
+            font-size: 12px;
+            font-weight: 400;
+            opacity: 0.85;
+            margin-top: 2px;
+        }
+        
+        /* ============================================================
+           BOTTOM NAVIGATION
+           ============================================================ */
         .bottom-nav {
             display: grid;
             grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
@@ -261,6 +397,7 @@
             padding-top: 14px;
             border-top: 1px solid rgba(255,255,255,0.06);
         }
+        
         .nav-item {
             background: transparent;
             border: none;
@@ -272,72 +409,244 @@
             transition: background 0.2s, color 0.2s;
             font-size: 9px;
         }
+        
         .nav-item .icon { font-size: 20px; display: block; margin-bottom: 2px; }
         .nav-item.active { color: #f59e0b; background: rgba(245, 158, 11, 0.08); }
         .nav-item .badge { font-size: 9px; color: #f59e0b; font-weight: 600; display: block; }
-        .nav-item .notification-dot { display: none; width: 6px; height: 6px; background: #ef4444; border-radius: 50%; margin: 0 auto 2px; }
+        .nav-item .notification-dot {
+            display: none;
+            width: 6px;
+            height: 6px;
+            background: #ef4444;
+            border-radius: 50%;
+            margin: 0 auto 2px;
+        }
         .nav-item .notification-dot.show { display: block; }
         
-        /* Screens */
+        /* ============================================================
+           SCREENS
+           ============================================================ */
         .screen { display: none; animation: fadeIn 0.3s ease; }
         .screen.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         
-        /* Reward Overlay */
-        .reward-overlay { text-align: center; padding: 40px 20px 30px; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* ============================================================
+           REWARD OVERLAY
+           ============================================================ */
+        .reward-overlay {
+            text-align: center;
+            padding: 40px 20px 30px;
+        }
+        
         .reward-overlay .emoji { font-size: 64px; display: block; margin-bottom: 12px; }
         .reward-overlay .title { font-size: 28px; font-weight: 700; }
         .reward-overlay .sub-title { font-size: 18px; color: #94a3b8; margin-top: 4px; }
         .reward-overlay .points { font-size: 44px; font-weight: 800; color: #f59e0b; margin: 10px 0 20px; }
-        .continue-btn { padding: 14px 50px; background: #f59e0b; border: none; border-radius: 30px; color: white; font-size: 17px; font-weight: 600; cursor: pointer; box-shadow: 0 6px 20px rgba(245, 158, 11, 0.3); }
+        
+        .continue-btn {
+            padding: 14px 50px;
+            background: #f59e0b;
+            border: none;
+            border-radius: 30px;
+            color: white;
+            font-size: 17px;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 6px 20px rgba(245, 158, 11, 0.3);
+        }
+        
         .continue-btn:active { transform: scale(0.97); }
         
-        /* Referral */
-        .referral-box { background: #1e293b; border-radius: 14px; padding: 18px; margin: 12px 0; text-align: center; border: 1px solid rgba(255,255,255,0.05); }
-        .referral-box .link { background: #0f172a; padding: 10px; border-radius: 8px; font-size: 12px; color: #94a3b8; word-break: break-all; margin: 10px 0; font-family: monospace; }
-        .share-btn { padding: 10px 30px; background: #3b82f6; border: none; border-radius: 30px; color: white; font-size: 15px; font-weight: 600; cursor: pointer; box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3); }
+        /* ============================================================
+           REFERRAL
+           ============================================================ */
+        .referral-box {
+            background: #1e293b;
+            border-radius: 14px;
+            padding: 18px;
+            margin: 12px 0;
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+        
+        .referral-box .link {
+            background: #0f172a;
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 12px;
+            color: #94a3b8;
+            word-break: break-all;
+            margin: 10px 0;
+            font-family: monospace;
+        }
+        
+        .share-btn {
+            padding: 10px 30px;
+            background: #3b82f6;
+            border: none;
+            border-radius: 30px;
+            color: white;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+        }
+        
         .share-btn:active { transform: scale(0.97); }
         
-        /* Ranking */
+        /* ============================================================
+           RANKING
+           ============================================================ */
         .rank-list { margin: 12px 0; max-height: 350px; overflow-y: auto; }
-        .rank-item { display: flex; justify-content: space-between; align-items: center; padding: 10px 14px; background: #1e293b; border-radius: 10px; margin-bottom: 6px; border-left: 3px solid transparent; }
+        
+        .rank-list .rank-empty {
+            text-align: center;
+            padding: 40px 20px;
+            color: #64748b;
+        }
+        
+        .rank-list .rank-empty .icon { font-size: 48px; display: block; margin-bottom: 12px; }
+        
+        .rank-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 14px;
+            background: #1e293b;
+            border-radius: 10px;
+            margin-bottom: 6px;
+            border-left: 3px solid transparent;
+            transition: background 0.2s;
+        }
+        
         .rank-item.top1 { border-left-color: #f59e0b; background: #2d1f0a; }
         .rank-item.top2 { border-left-color: #94a3b8; background: #1a1e24; }
         .rank-item.top3 { border-left-color: #cd7f32; background: #1f1810; }
         .rank-item.you { border-left-color: #3b82f6; background: #0f1f3a; }
+        
         .rank-item .rank-num { font-weight: 700; color: #64748b; width: 28px; font-size: 13px; }
         .rank-item .rank-name { flex: 1; margin-left: 8px; font-weight: 500; font-size: 14px; }
         .rank-item .rank-points { font-weight: 600; color: #f59e0b; font-size: 14px; }
         .rank-item .rank-ads { font-size: 12px; color: #64748b; margin-right: 8px; }
-        .rank-item .you-badge { font-size: 9px; background: #3b82f6; padding: 1px 8px; border-radius: 12px; margin-left: 6px; font-weight: 600; }
-        .my-rank-box { margin-top: 12px; text-align: center; color: #64748b; font-size: 14px; padding: 12px; background: #1e293b; border-radius: 10px; }
+        .rank-item .you-badge {
+            font-size: 9px;
+            background: #3b82f6;
+            padding: 1px 8px;
+            border-radius: 12px;
+            margin-left: 6px;
+            font-weight: 600;
+        }
+        
+        .my-rank-box {
+            margin-top: 12px;
+            text-align: center;
+            color: #64748b;
+            font-size: 14px;
+            padding: 12px;
+            background: #1e293b;
+            border-radius: 10px;
+        }
+        
         .my-rank-box span { color: #f59e0b; font-weight: 700; }
         .my-rank-box .rank-league { display: block; font-size: 18px; font-weight: 700; color: #f59e0b; margin-top: 4px; }
         .my-rank-box .rank-sub { font-size: 12px; color: #94a3b8; }
         
-        /* Announcement List */
+        /* ============================================================
+           ANNOUNCEMENT LIST
+           ============================================================ */
         .announcement-list { margin: 12px 0; max-height: 450px; overflow-y: auto; }
-        .announcement-item { background: #1e293b; border-radius: 12px; padding: 14px 16px; margin-bottom: 10px; border: 1px solid rgba(255,255,255,0.05); }
-        .announcement-item .item-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; }
-        .announcement-item .item-title { font-size: 11px; font-weight: 600; color: #f59e0b; text-transform: uppercase; }
+        
+        .announcement-item {
+            background: #1e293b;
+            border-radius: 12px;
+            padding: 14px 16px;
+            margin-bottom: 10px;
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: background 0.2s;
+        }
+        
+        .announcement-item:hover { background: #2d3a4f; }
+        
+        .announcement-item .item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 4px;
+        }
+        
+        .announcement-item .item-title {
+            font-size: 11px;
+            font-weight: 600;
+            color: #f59e0b;
+            text-transform: uppercase;
+        }
+        
         .announcement-item .item-time { font-size: 10px; color: #64748b; }
         .announcement-item .item-message { font-size: 14px; color: #e2e8f0; line-height: 1.5; }
         .announcement-item .item-read { font-size: 10px; color: #10b981; margin-top: 4px; display: inline-block; }
         .announcement-item .item-unread { font-size: 10px; color: #f59e0b; margin-top: 4px; display: inline-block; }
-        .no-announcements { text-align: center; padding: 40px 20px; color: #64748b; }
+        
+        .no-announcements {
+            text-align: center;
+            padding: 40px 20px;
+            color: #64748b;
+        }
+        
         .no-announcements .icon { font-size: 48px; margin-bottom: 12px; display: block; }
         
-        /* Contact Admin */
-        .contact-box { background: #1e293b; border-radius: 14px; padding: 18px; margin: 12px 0; border: 1px solid rgba(255,255,255,0.05); }
+        /* ============================================================
+           CONTACT ADMIN
+           ============================================================ */
+        .contact-box {
+            background: #1e293b;
+            border-radius: 14px;
+            padding: 18px;
+            margin: 12px 0;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+        
         .contact-box .contact-title { font-size: 14px; font-weight: 600; margin-bottom: 4px; }
         .contact-box .contact-sub { font-size: 12px; color: #94a3b8; margin-bottom: 10px; }
-        .contact-box textarea { width: 100%; padding: 12px; border-radius: 10px; border: 1px solid #334155; background: #0f172a; color: white; font-size: 14px; min-height: 80px; resize: vertical; outline: none; font-family: inherit; margin-bottom: 10px; }
+        
+        .contact-box textarea {
+            width: 100%;
+            padding: 12px;
+            border-radius: 10px;
+            border: 1px solid #334155;
+            background: #0f172a;
+            color: white;
+            font-size: 14px;
+            min-height: 80px;
+            resize: vertical;
+            outline: none;
+            font-family: inherit;
+            margin-bottom: 10px;
+        }
+        
         .contact-box textarea:focus { border-color: #f59e0b; }
-        .send-msg-btn { padding: 10px 30px; background: #f59e0b; border: none; border-radius: 30px; color: white; font-size: 15px; font-weight: 600; cursor: pointer; box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3); }
+        
+        .send-msg-btn {
+            padding: 10px 30px;
+            background: #f59e0b;
+            border: none;
+            border-radius: 30px;
+            color: white;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3);
+        }
+        
         .send-msg-btn:active { transform: scale(0.97); }
         .send-msg-btn:disabled { opacity: 0.6; cursor: not-allowed; }
         
-        /* Admin Replies */
+        /* ============================================================
+           ADMIN REPLIES
+           ============================================================ */
         .admin-reply-box {
             background: #0f172a;
             border-radius: 10px;
@@ -345,21 +654,46 @@
             margin-top: 8px;
             border-left: 2px solid #10b981;
         }
+        
         .admin-reply-box .reply-label { font-size: 10px; color: #10b981; font-weight: 600; text-transform: uppercase; }
         .admin-reply-box .reply-text { font-size: 13px; color: #e2e8f0; margin-top: 2px; }
         .admin-reply-box .reply-time { font-size: 10px; color: #64748b; margin-top: 2px; }
         
-        /* Profile */
-        .profile-card { background: #1e293b; border-radius: 14px; padding: 20px; margin: 12px 0; text-align: center; border: 1px solid rgba(255,255,255,0.05); }
+        /* ============================================================
+           PROFILE
+           ============================================================ */
+        .profile-card {
+            background: #1e293b;
+            border-radius: 14px;
+            padding: 20px;
+            margin: 12px 0;
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+        
         .profile-card .avatar { font-size: 56px; margin-bottom: 8px; display: block; }
         .profile-card .p-name { font-size: 20px; font-weight: 700; }
         .profile-card .p-id { font-size: 13px; color: #64748b; margin-top: 2px; }
-        .profile-card .p-stats { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-top: 14px; }
-        .profile-card .p-stat { background: #0f172a; border-radius: 10px; padding: 10px; }
+        
+        .profile-card .p-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 8px;
+            margin-top: 14px;
+        }
+        
+        .profile-card .p-stat {
+            background: #0f172a;
+            border-radius: 10px;
+            padding: 10px;
+        }
+        
         .profile-card .p-stat .num { font-size: 18px; font-weight: 700; color: #f59e0b; }
         .profile-card .p-stat .lbl { font-size: 10px; color: #94a3b8; }
         
-        /* Reward Info */
+        /* ============================================================
+           REWARD INFO
+           ============================================================ */
         .reward-info {
             background: linear-gradient(135deg, #1e293b, #0f172a);
             border-radius: 14px;
@@ -367,6 +701,7 @@
             margin: 12px 0;
             border: 1px solid rgba(245, 158, 11, 0.15);
         }
+        
         .reward-info .reward-title {
             font-size: 16px;
             font-weight: 700;
@@ -374,15 +709,16 @@
             text-align: center;
             margin-bottom: 8px;
         }
+        
         .reward-info .reward-detail {
             font-size: 13px;
             color: #94a3b8;
             line-height: 1.6;
             text-align: center;
         }
-        .reward-info .reward-detail strong {
-            color: #10b981;
-        }
+        
+        .reward-info .reward-detail strong { color: #10b981; }
+        
         .reward-info .reward-rule {
             font-size: 12px;
             color: #64748b;
@@ -392,10 +728,35 @@
             border-top: 1px solid rgba(255,255,255,0.05);
         }
         
-        /* Loading */
-        .loading { text-align: center; padding: 40px 0; color: #64748b; }
-        .loading .spinner { width: 32px; height: 32px; border: 3px solid #1e293b; border-top: 3px solid #f59e0b; border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 12px; }
+        /* ============================================================
+           LOADING
+           ============================================================ */
+        .loading {
+            text-align: center;
+            padding: 40px 0;
+            color: #64748b;
+        }
         
+        .loading .spinner {
+            width: 32px;
+            height: 32px;
+            border: 3px solid #1e293b;
+            border-top: 3px solid #f59e0b;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin: 0 auto 12px;
+        }
+        
+        /* ============================================================
+           SCROLLBAR
+           ============================================================ */
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: #1e293b; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb { background: #f59e0b; border-radius: 10px; }
+        
+        /* ============================================================
+           RESPONSIVE
+           ============================================================ */
         @media (max-width: 400px) {
             body { padding: 10px; }
             .app-container { padding: 14px; border-radius: 20px; min-height: 600px; }
@@ -413,17 +774,13 @@
     <div class="app-container" id="app">
         
         <!-- ============================================================
-           SPLASH SCREEN (3 Seconds)
+           SPLASH SCREEN
            ============================================================ -->
         <div id="splashScreen">
-            <div class="splash-logo">
-                🏟️
-            </div>
+            <div class="splash-logo">🏟️</div>
             <div class="splash-title">ADS ARENA</div>
             <div class="splash-subtitle">Earn &amp; Win</div>
-            <div class="splash-creator">
-                Created by <span>#06</span>
-            </div>
+            <div class="splash-creator">Created by <span>#06</span></div>
             <div class="splash-loader"></div>
         </div>
         
@@ -432,7 +789,7 @@
            ============================================================ -->
         <div id="mainApp" style="display: none;">
             
-            <!-- HOME SCREEN -->
+            <!-- ===== HOME SCREEN ===== -->
             <div class="screen active" id="homeScreen">
                 <div class="app-header">
                     <h1>ARENA</h1>
@@ -509,7 +866,7 @@
                 </div>
             </div>
             
-            <!-- REWARD SCREEN -->
+            <!-- ===== REWARD SCREEN ===== -->
             <div class="screen" id="rewardScreen">
                 <div class="reward-overlay">
                     <span class="emoji" id="rewardEmoji">🎉</span>
@@ -520,7 +877,7 @@
                 </div>
             </div>
             
-            <!-- REFERRAL SCREEN -->
+            <!-- ===== REFERRAL SCREEN ===== -->
             <div class="screen" id="referralScreen">
                 <div class="app-header">
                     <h1>ARENA</h1>
@@ -554,7 +911,7 @@
                 </div>
             </div>
             
-            <!-- RANKING SCREEN -->
+            <!-- ===== RANKING SCREEN ===== -->
             <div class="screen" id="rankingScreen">
                 <div class="app-header">
                     <h1>ARENA</h1>
@@ -581,7 +938,7 @@
                 </div>
             </div>
             
-            <!-- NEWS SCREEN -->
+            <!-- ===== NEWS SCREEN ===== -->
             <div class="screen" id="newsScreen">
                 <div class="app-header">
                     <h1>ARENA</h1>
@@ -603,7 +960,7 @@
                 </div>
             </div>
             
-            <!-- PROFILE SCREEN -->
+            <!-- ===== PROFILE SCREEN ===== -->
             <div class="screen" id="profileScreen">
                 <div class="app-header">
                     <h1>ARENA</h1>
@@ -686,7 +1043,7 @@
         var BOT_USERNAME = 'Ads_Arena_Bot';
         
         // ============================================================
-        // 🚀 SPLASH SCREEN - Auto disappear after 3 seconds
+        // 🚀 SPLASH SCREEN - 3 Seconds
         // ============================================================
         setTimeout(function() {
             var splash = document.getElementById('splashScreen');
@@ -753,7 +1110,7 @@
                         monthlyAds: {},
                         totalReferrals: 0,
                         referralEarnings: 0,
-                        rank: 6,
+                        rank: 0,
                         announcements: [],
                         replies: [],
                         createdAt: firebase.firestore.FieldValue.serverTimestamp(),
@@ -784,7 +1141,7 @@
                 var points = data.points || 0;
                 var referrals = data.totalReferrals || 0;
                 var refEarnings = data.referralEarnings || 0;
-                var rank = data.rank || '--';
+                var rank = data.rank || 0;
                 
                 document.getElementById('adsWatched').textContent = allTime;
                 document.getElementById('userPoints').textContent = points.toLocaleString();
@@ -792,11 +1149,10 @@
                 document.getElementById('referralEarnings').textContent = refEarnings;
                 document.getElementById('profileAds').textContent = allTime;
                 document.getElementById('profilePoints').textContent = points.toLocaleString();
-                document.getElementById('profileRank').textContent = '#' + rank;
-                document.getElementById('rankBadge').textContent = '#' + rank;
+                document.getElementById('profileRank').textContent = rank > 0 ? '#' + rank : '#0';
+                document.getElementById('rankBadge').textContent = rank > 0 ? '#' + rank : '#0';
                 
                 updateWeeklyProgress(weekCount);
-                updateRankLeague(rank);
                 
                 var announcements = data.announcements || [];
                 var unread = announcements.filter(function(a) { return !a.read; });
@@ -817,8 +1173,8 @@
                 }
                 
                 renderAnnouncementList(announcements);
-                loadRankings();
                 loadAdminReplies(data);
+                loadRankings();
                 
             } catch (error) {
                 console.error('❌ Error loading user data:', error);
@@ -846,19 +1202,6 @@
                 html += '</div>';
             });
             container.innerHTML = html;
-        }
-        
-        // ============================================================
-        // 🏆 UPDATE RANK LEAGUE
-        // ============================================================
-        function updateRankLeague(rank) {
-            var leagueEl = document.getElementById('rankLeague');
-            var subEl = document.getElementById('rankSub');
-            if (rank <= 5) { leagueEl.textContent = '🏆 Diamond League'; subEl.textContent = 'Top 5% Players'; }
-            else if (rank <= 15) { leagueEl.textContent = '💎 Platinum League'; subEl.textContent = 'Top 15% Players'; }
-            else if (rank <= 30) { leagueEl.textContent = '🥇 Gold League'; subEl.textContent = 'Top 25% Players'; }
-            else if (rank <= 50) { leagueEl.textContent = '🥈 Silver League'; subEl.textContent = 'Top 50% Players'; }
-            else { leagueEl.textContent = '🥉 Bronze League'; subEl.textContent = 'Keep watching ads to rank up!'; }
         }
         
         // ============================================================
@@ -943,10 +1286,7 @@
         // 👁️ WATCH AD
         // ============================================================
         function watchAd() {
-            if (adInProgress) {
-                console.log('⏳ Ad in progress');
-                return;
-            }
+            if (adInProgress) { console.log('⏳ Ad in progress'); return; }
             var btn = document.getElementById('watchBtn');
             if (typeof show_11083093 === 'undefined') {
                 alert('Ad service loading. Please try again.');
@@ -1007,6 +1347,7 @@
                     adInProgress = false;
                     btn.disabled = false;
                     btn.innerHTML = 'WATCH ADS<span class="sub-text">Earn 10 Points</span>';
+                    loadRankings();
                 }).catch(function(error) {
                     console.error('❌ Firebase ERROR:', error);
                     alert('Error saving reward: ' + error.message);
@@ -1028,38 +1369,116 @@
         // ============================================================
         async function loadRankings() {
             try {
+                console.log('🏆 Loading rankings...');
                 var snapshot = await db.collection('users').orderBy('points', 'desc').get();
                 var rankList = document.getElementById('rankList');
                 rankList.innerHTML = '';
                 var rank = 1;
-                var userRank = 6;
+                var userRank = 0;
                 var totalUsers = snapshot.size;
+                
                 if (snapshot.empty) {
-                    rankList.innerHTML = '<div class="loading">No players yet. Be the first!</div>';
+                    rankList.innerHTML = '<div class="rank-empty"><span class="icon">🏆</span>No players yet.<br>Be the first to start ranking!</div>';
+                    document.getElementById('myRankDisplay').textContent = '#0';
+                    document.getElementById('profileRank').textContent = '#0';
+                    document.getElementById('rankBadge').textContent = '#0';
                     return;
                 }
+                
                 snapshot.forEach(function(doc) {
                     var data = doc.data();
                     var isYou = doc.id === userId.toString();
                     if (isYou) { userRank = rank; }
+                    
                     var div = document.createElement('div');
-                    div.className = 'rank-item' + (isYou ? ' you' : '') + (rank <= 3 ? ' top' + rank : '');
+                    div.className = 'rank-item';
+                    if (isYou) div.className += ' you';
+                    else if (rank === 1) div.className += ' top1';
+                    else if (rank === 2) div.className += ' top2';
+                    else if (rank === 3) div.className += ' top3';
+                    
                     var medal = '';
                     if (rank === 1) medal = '🥇';
                     else if (rank === 2) medal = '🥈';
                     else if (rank === 3) medal = '🥉';
-                    div.innerHTML = '<span class="rank-num">' + (medal || '#' + rank) + '</span><span class="rank-name">' + (data.displayName || 'Player') + (isYou ? ' <span class="you-badge">You</span>' : '') + '</span><span class="rank-ads">📺 ' + (data.allTimeAds || 0) + '</span><span class="rank-points">' + (data.points || 0).toLocaleString() + '</span>';
+                    
+                    var displayName = data.displayName || 'Player';
+                    var points = data.points || 0;
+                    var ads = data.allTimeAds || 0;
+                    
+                    div.innerHTML = '<span class="rank-num">' + (medal || '#' + rank) + '</span>' +
+                                   '<span class="rank-name">' + displayName + (isYou ? ' <span class="you-badge">You</span>' : '') + '</span>' +
+                                   '<span class="rank-ads">📺 ' + ads + '</span>' +
+                                   '<span class="rank-points">' + points.toLocaleString() + '</span>';
+                    
                     rankList.appendChild(div);
                     rank++;
                 });
-                document.getElementById('myRankDisplay').textContent = '#' + userRank + ' of ' + totalUsers;
-                document.getElementById('profileRank').textContent = '#' + userRank;
-                document.getElementById('rankBadge').textContent = '#' + userRank;
-                updateRankLeague(userRank);
-                db.collection('users').doc(userId.toString()).update({ rank: userRank }).catch(function() {});
+                
+                if (userRank === 0) {
+                    try {
+                        var allUsers = await db.collection('users').orderBy('points', 'desc').get();
+                        var userPosition = 0;
+                        allUsers.forEach(function(doc, index) {
+                            if (doc.id === userId.toString()) {
+                                userPosition = index + 1;
+                            }
+                        });
+                        if (userPosition > 0) {
+                            userRank = userPosition;
+                        }
+                    } catch(e) {
+                        console.log('Could not find user rank');
+                    }
+                }
+                
+                document.getElementById('myRankDisplay').textContent = userRank > 0 ? '#' + userRank + ' of ' + totalUsers : '#0';
+                document.getElementById('profileRank').textContent = userRank > 0 ? '#' + userRank : '#0';
+                document.getElementById('rankBadge').textContent = userRank > 0 ? '#' + userRank : '#0';
+                
+                if (userRank > 0) {
+                    db.collection('users').doc(userId.toString()).update({ rank: userRank }).catch(function() {});
+                }
+                
+                updateRankLeague(userRank, totalUsers);
+                console.log('✅ Rankings loaded, user rank:', userRank);
+                
             } catch (error) {
                 console.error('Error loading rankings:', error);
                 document.getElementById('rankList').innerHTML = '<div class="loading">Unable to load rankings</div>';
+            }
+        }
+        
+        // ============================================================
+        // 🏆 UPDATE RANK LEAGUE
+        // ============================================================
+        function updateRankLeague(rank, totalUsers) {
+            var leagueEl = document.getElementById('rankLeague');
+            var subEl = document.getElementById('rankSub');
+            
+            if (rank === 0 || totalUsers === 0) {
+                leagueEl.textContent = '🏆 No Rank Yet';
+                subEl.textContent = 'Watch your first ad to start ranking!';
+                return;
+            }
+            
+            var percent = (rank / totalUsers) * 100;
+            
+            if (percent <= 5) {
+                leagueEl.textContent = '🏆 Diamond League';
+                subEl.textContent = 'Top 5% Players';
+            } else if (percent <= 15) {
+                leagueEl.textContent = '💎 Platinum League';
+                subEl.textContent = 'Top 15% Players';
+            } else if (percent <= 30) {
+                leagueEl.textContent = '🥇 Gold League';
+                subEl.textContent = 'Top 30% Players';
+            } else if (percent <= 50) {
+                leagueEl.textContent = '🥈 Silver League';
+                subEl.textContent = 'Top 50% Players';
+            } else {
+                leagueEl.textContent = '🥉 Bronze League';
+                subEl.textContent = 'Keep watching ads to rank up!';
             }
         }
         
