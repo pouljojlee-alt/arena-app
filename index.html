@@ -525,7 +525,7 @@
 
     <script>
         // ============================================================
-        // 🔥 FIREBASE CONFIG - YOUR NEW CONFIG
+        // 🔥 FIREBASE CONFIG
         // ============================================================
         var firebaseConfig = {
             apiKey: "AIzaSyA-2MtPZhZt9Oewn4V6AlBiS7TKMPdEatI",
@@ -536,7 +536,6 @@
             appId: "1:840454017440:web:6188686fa96a1d28a414c5"
         };
         
-        // Initialize Firebase
         firebase.initializeApp(firebaseConfig);
         var db = firebase.firestore();
         
@@ -544,9 +543,10 @@
         var WEEKLY_GOAL = 200000;
         var unreadAnnouncements = 0;
         var adInProgress = false;
+        var userName = 'Arena Player';
         
         // ============================================================
-        // 🚀 INIT - FIXED: Get User from Telegram Properly
+        // 🚀 INIT - Get User from Telegram
         // ============================================================
         function initApp() {
             console.log('🚀 App initializing...');
@@ -563,18 +563,25 @@
                 if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
                     var user = tg.initDataUnsafe.user;
                     userId = user.id.toString();
-                    var userName = user.first_name || 'Arena Player';
-                    var userLastName = user.last_name || '';
-                    var fullName = userName + (userLastName ? ' ' + userLastName : '');
+                    
+                    // Get full name
+                    var firstName = user.first_name || '';
+                    var lastName = user.last_name || '';
+                    userName = firstName + (lastName ? ' ' + lastName : '');
+                    
+                    // If no name, use username or fallback
+                    if (!userName.trim()) {
+                        userName = user.username || 'Arena Player';
+                    }
                     
                     console.log('✅ User detected from Telegram:', {
                         id: userId,
-                        name: fullName,
+                        name: userName,
                         username: user.username || 'No username'
                     });
                     
                     // Update UI with user data
-                    document.getElementById('displayName').textContent = fullName;
+                    document.getElementById('displayName').textContent = userName;
                     document.getElementById('displayId').textContent = 'ID: ' + userId;
                     document.getElementById('referralLink').textContent = 'https://t.me/arena_bot?start=' + userId;
                 } else {
@@ -609,11 +616,8 @@
                 if (!doc.exists) {
                     console.log('👤 New user detected, creating profile...');
                     
-                    // Get the current display name from the UI
-                    var displayName = document.getElementById('displayName').textContent || 'Arena Player';
-                    
                     await docRef.set({
-                        displayName: displayName,
+                        displayName: userName,
                         userId: userId.toString(),
                         points: 0,
                         allTimeAds: 0,
@@ -627,7 +631,7 @@
                         createdAt: firebase.firestore.FieldValue.serverTimestamp(),
                         lastActive: firebase.firestore.FieldValue.serverTimestamp()
                     });
-                    console.log('✅ New user profile created with name:', displayName);
+                    console.log('✅ New user profile created with name:', userName);
                 }
                 
                 // Get updated data
@@ -635,7 +639,7 @@
                 var data = doc.data();
                 console.log('📊 User data loaded successfully');
                 
-                // Update UI with user data
+                // Update UI with user data from Firebase
                 if (data.displayName) {
                     document.getElementById('displayName').textContent = data.displayName;
                 }
