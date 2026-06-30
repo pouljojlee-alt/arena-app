@@ -5,9 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Ads Arena</title>
     
+    <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    
+    <!-- Monetag SDK -->
     <script src="//libtl.com/sdk.js" data-zone="11083093" data-sdk="show_11083093"></script>
     
     <style>
@@ -21,6 +24,7 @@
             align-items: center;
             justify-content: center;
             padding: 16px;
+            overflow: hidden;
         }
         .app-container {
             max-width: 420px;
@@ -31,7 +35,109 @@
             box-shadow: 0 20px 60px rgba(0,0,0,0.6);
             min-height: 700px;
             position: relative;
+            overflow: hidden;
         }
+        
+        /* ============================================================
+           SPLASH SCREEN (3 Seconds)
+           ============================================================ */
+        #splashScreen {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, #0a0e17, #1a1a2e);
+            border-radius: 28px;
+            z-index: 2000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 30px;
+            animation: splashFadeIn 0.8s ease;
+        }
+        
+        @keyframes splashFadeIn {
+            from { opacity: 0; transform: scale(1.1); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        
+        @keyframes splashFadeOut {
+            from { opacity: 1; transform: scale(1); }
+            to { opacity: 0; transform: scale(0.9); }
+        }
+        
+        #splashScreen .splash-logo {
+            width: 120px;
+            height: 120px;
+            border-radius: 30px;
+            background: linear-gradient(135deg, #f59e0b, #ef4444);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 60px;
+            margin-bottom: 20px;
+            box-shadow: 0 20px 60px rgba(245, 158, 11, 0.3);
+            animation: pulse 2s ease-in-out infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); box-shadow: 0 20px 60px rgba(245, 158, 11, 0.3); }
+            50% { transform: scale(1.05); box-shadow: 0 20px 80px rgba(245, 158, 11, 0.5); }
+        }
+        
+        #splashScreen .splash-title {
+            font-size: 32px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #f59e0b, #ef4444);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 2px;
+            margin-bottom: 6px;
+        }
+        
+        #splashScreen .splash-subtitle {
+            font-size: 14px;
+            color: #94a3b8;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+        }
+        
+        #splashScreen .splash-creator {
+            font-size: 12px;
+            color: #64748b;
+            margin-top: 20px;
+            letter-spacing: 2px;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            padding-top: 16px;
+            width: 60%;
+            text-align: center;
+        }
+        
+        #splashScreen .splash-creator span {
+            color: #f59e0b;
+            font-weight: 700;
+        }
+        
+        .splash-loader {
+            margin-top: 24px;
+            width: 40px;
+            height: 40px;
+            border: 3px solid rgba(245, 158, 11, 0.1);
+            border-top: 3px solid #f59e0b;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* ============================================================
+           MAIN APP STYLES
+           ============================================================ */
         .app-header {
             display: flex;
             justify-content: space-between;
@@ -289,7 +395,6 @@
         /* Loading */
         .loading { text-align: center; padding: 40px 0; color: #64748b; }
         .loading .spinner { width: 32px; height: 32px; border: 3px solid #1e293b; border-top: 3px solid #f59e0b; border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 12px; }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
         
         @media (max-width: 400px) {
             body { padding: 10px; }
@@ -299,236 +404,257 @@
             .nav-item { font-size: 9px; padding: 6px 2px; }
             .nav-item .icon { font-size: 18px; }
             .user-profile .username { font-size: 18px; }
+            #splashScreen .splash-logo { width: 80px; height: 80px; font-size: 40px; }
+            #splashScreen .splash-title { font-size: 24px; }
         }
     </style>
 </head>
 <body>
     <div class="app-container" id="app">
         
-        <!-- HOME SCREEN -->
-        <div class="screen active" id="homeScreen">
-            <div class="app-header">
-                <h1>ARENA</h1>
-                <button class="close-btn" onclick="closeApp()">✕ Close</button>
+        <!-- ============================================================
+           SPLASH SCREEN (3 Seconds)
+           ============================================================ -->
+        <div id="splashScreen">
+            <div class="splash-logo">
+                🏟️
             </div>
+            <div class="splash-title">ADS ARENA</div>
+            <div class="splash-subtitle">Earn &amp; Win</div>
+            <div class="splash-creator">
+                Created by <span>#06</span>
+            </div>
+            <div class="splash-loader"></div>
+        </div>
+        
+        <!-- ============================================================
+           MAIN APP
+           ============================================================ -->
+        <div id="mainApp" style="display: none;">
             
-            <div id="announcementBanner" onclick="showScreen('newsScreen')">
-                <div class="announcement-flex">
-                    <div class="announcement-content">
-                        <div class="announcement-label">📢 NEW</div>
-                        <div class="announcement-message" id="announcementMessage">Loading...</div>
-                        <div class="announcement-time" id="announcementTime"></div>
+            <!-- HOME SCREEN -->
+            <div class="screen active" id="homeScreen">
+                <div class="app-header">
+                    <h1>ARENA</h1>
+                    <button class="close-btn" onclick="closeApp()">✕ Close</button>
+                </div>
+                
+                <div id="announcementBanner" onclick="showScreen('newsScreen')">
+                    <div class="announcement-flex">
+                        <div class="announcement-content">
+                            <div class="announcement-label">📢 NEW</div>
+                            <div class="announcement-message" id="announcementMessage">Loading...</div>
+                            <div class="announcement-time" id="announcementTime"></div>
+                        </div>
+                        <span class="announcement-badge" id="unreadBadge">NEW</span>
+                        <button class="dismiss-btn" onclick="event.stopPropagation(); dismissAnnouncement()">✕</button>
                     </div>
-                    <span class="announcement-badge" id="unreadBadge">NEW</span>
-                    <button class="dismiss-btn" onclick="event.stopPropagation(); dismissAnnouncement()">✕</button>
                 </div>
-            </div>
-            
-            <div class="user-profile">
-                <div class="greeting">Welcome,</div>
-                <div class="username" id="displayName">Arena Player</div>
-                <div class="user-id" id="displayId">ID: 123456789</div>
-            </div>
-            
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="label">Ads Watched</div>
-                    <div class="value gold" id="adsWatched">0</div>
+                
+                <div class="user-profile">
+                    <div class="greeting">Welcome,</div>
+                    <div class="username" id="displayName">Arena Player</div>
+                    <div class="user-id" id="displayId">ID: 123456789</div>
                 </div>
-                <div class="stat-card">
-                    <div class="label">Points</div>
-                    <div class="value green" id="userPoints">0</div>
+                
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="label">Ads Watched</div>
+                        <div class="value gold" id="adsWatched">0</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="label">Points</div>
+                        <div class="value green" id="userPoints">0</div>
+                    </div>
                 </div>
-            </div>
-            
-            <div class="weekly-goal">
-                <div class="goal-header">
-                    <span class="goal-title">📊 Weekly Goal</span>
-                    <span class="goal-count" id="weeklyCount">0 <span>/ 200,000</span></span>
+                
+                <div class="weekly-goal">
+                    <div class="goal-header">
+                        <span class="goal-title">📊 Weekly Goal</span>
+                        <span class="goal-count" id="weeklyCount">0 <span>/ 200,000</span></span>
+                    </div>
+                    <div class="progress-track">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+                    <div class="goal-stats">
+                        <span id="progressPercent">0%</span>
+                        <span id="progressStatus">🎯 200,000 ads this week</span>
+                    </div>
                 </div>
-                <div class="progress-track">
-                    <div class="progress-fill" id="progressFill"></div>
-                </div>
-                <div class="goal-stats">
-                    <span id="progressPercent">0%</span>
-                    <span id="progressStatus">🎯 200,000 ads this week</span>
-                </div>
-            </div>
-            
-            <button class="watch-btn" id="watchBtn" onclick="watchAd()">
-                WATCH ADS
-                <span class="sub-text" id="watchSubText">Earn 10 Points</span>
-            </button>
-            
-            <div class="bottom-nav">
-                <button class="nav-item active" onclick="showScreen('homeScreen')">
-                    <span class="icon">🏠</span> Home
+                
+                <button class="watch-btn" id="watchBtn" onclick="watchAd()">
+                    WATCH ADS
+                    <span class="sub-text" id="watchSubText">Earn 10 Points</span>
                 </button>
-                <button class="nav-item" onclick="showScreen('referralScreen')">
-                    <span class="icon">👥</span> Referrals
-                    <span class="badge" id="refBadge">Invite</span>
-                </button>
-                <button class="nav-item" onclick="showScreen('rankingScreen')">
-                    <span class="icon">🏆</span> Ranking
-                    <span class="badge" id="rankBadge">#--</span>
-                </button>
-                <button class="nav-item" onclick="showScreen('newsScreen')">
-                    <span class="icon">📰</span> News
-                    <span class="notification-dot" id="newsDot"></span>
-                </button>
-                <button class="nav-item" onclick="showScreen('profileScreen')">
-                    <span class="icon">👤</span> Profile
-                </button>
-            </div>
-        </div>
-        
-        <!-- REWARD SCREEN -->
-        <div class="screen" id="rewardScreen">
-            <div class="reward-overlay">
-                <span class="emoji" id="rewardEmoji">🎉</span>
-                <div class="title">Great!</div>
-                <div class="sub-title">You earned</div>
-                <div class="points" id="rewardPoints">+10 Points</div>
-                <button class="continue-btn" onclick="showScreen('homeScreen')">Continue</button>
-            </div>
-        </div>
-        
-        <!-- REFERRAL SCREEN -->
-        <div class="screen" id="referralScreen">
-            <div class="app-header">
-                <h1>ARENA</h1>
-                <button class="close-btn" onclick="closeApp()">✕ Close</button>
-            </div>
-            <div style="margin-top:4px;">
-                <div style="font-size:20px; font-weight:700; margin-bottom:2px;">Invite Friends</div>
-                <div style="color:#94a3b8; font-size:14px; margin-bottom:12px;">Invite friends and earn <strong style="color:#f59e0b;">5 points</strong> per referral</div>
-            </div>
-            <div class="referral-box">
-                <div style="font-size:12px; color:#94a3b8; margin-bottom:4px;">Your Referral Link</div>
-                <div class="link" id="referralLink">Loading...</div>
-                <button class="share-btn" onclick="shareLink()">📤 SHARE LINK</button>
-            </div>
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="label">Total Referrals</div>
-                    <div class="value gold" id="totalReferrals">0</div>
-                </div>
-                <div class="stat-card">
-                    <div class="label">Referral Earnings</div>
-                    <div class="value green" id="referralEarnings">0</div>
-                </div>
-            </div>
-            <div class="bottom-nav">
-                <button class="nav-item" onclick="showScreen('homeScreen')"><span class="icon">🏠</span> Home</button>
-                <button class="nav-item active" onclick="showScreen('referralScreen')"><span class="icon">👥</span> Referrals</button>
-                <button class="nav-item" onclick="showScreen('rankingScreen')"><span class="icon">🏆</span> Ranking</button>
-                <button class="nav-item" onclick="showScreen('newsScreen')"><span class="icon">📰</span> News</button>
-                <button class="nav-item" onclick="showScreen('profileScreen')"><span class="icon">👤</span> Profile</button>
-            </div>
-        </div>
-        
-        <!-- RANKING SCREEN -->
-        <div class="screen" id="rankingScreen">
-            <div class="app-header">
-                <h1>ARENA</h1>
-                <button class="close-btn" onclick="closeApp()">✕ Close</button>
-            </div>
-            <div style="margin-top:4px;">
-                <div style="font-size:20px; font-weight:700; margin-bottom:2px;">Top Players</div>
-                <div style="color:#94a3b8; font-size:14px; margin-bottom:12px;">All users ranked by points</div>
-            </div>
-            <div class="rank-list" id="rankList">
-                <div class="loading"><div class="spinner"></div>Loading rankings...</div>
-            </div>
-            <div class="my-rank-box" id="myRankBox">
-                My Rank: <span id="myRankDisplay">#--</span>
-                <span class="rank-league" id="rankLeague">Gold League</span>
-                <span class="rank-sub" id="rankSub">Top 25% Players</span>
-            </div>
-            <div class="bottom-nav">
-                <button class="nav-item" onclick="showScreen('homeScreen')"><span class="icon">🏠</span> Home</button>
-                <button class="nav-item" onclick="showScreen('referralScreen')"><span class="icon">👥</span> Referrals</button>
-                <button class="nav-item active" onclick="showScreen('rankingScreen')"><span class="icon">🏆</span> Ranking</button>
-                <button class="nav-item" onclick="showScreen('newsScreen')"><span class="icon">📰</span> News</button>
-                <button class="nav-item" onclick="showScreen('profileScreen')"><span class="icon">👤</span> Profile</button>
-            </div>
-        </div>
-        
-        <!-- NEWS SCREEN -->
-        <div class="screen" id="newsScreen">
-            <div class="app-header">
-                <h1>ARENA</h1>
-                <button class="close-btn" onclick="showScreen('homeScreen')">✕ Back</button>
-            </div>
-            <div style="margin-top:4px;">
-                <div style="font-size:20px; font-weight:700; margin-bottom:2px;">📰 News</div>
-                <div style="color:#94a3b8; font-size:14px; margin-bottom:12px;">Announcements from the admin</div>
-            </div>
-            <div class="announcement-list" id="announcementList">
-                <div class="loading"><div class="spinner"></div>Loading announcements...</div>
-            </div>
-            <div class="bottom-nav">
-                <button class="nav-item" onclick="showScreen('homeScreen')"><span class="icon">🏠</span> Home</button>
-                <button class="nav-item" onclick="showScreen('referralScreen')"><span class="icon">👥</span> Referrals</button>
-                <button class="nav-item" onclick="showScreen('rankingScreen')"><span class="icon">🏆</span> Ranking</button>
-                <button class="nav-item active" onclick="showScreen('newsScreen')"><span class="icon">📰</span> News</button>
-                <button class="nav-item" onclick="showScreen('profileScreen')"><span class="icon">👤</span> Profile</button>
-            </div>
-        </div>
-        
-        <!-- PROFILE SCREEN -->
-        <div class="screen" id="profileScreen">
-            <div class="app-header">
-                <h1>ARENA</h1>
-                <button class="close-btn" onclick="closeApp()">✕ Close</button>
-            </div>
-            <div class="profile-card">
-                <span class="avatar">👤</span>
-                <div class="p-name" id="profileName">Arena Player</div>
-                <div class="p-id" id="profileId">ID: 123456789</div>
-                <div class="p-stats">
-                    <div class="p-stat"><div class="num" id="profileAds">0</div><div class="lbl">Ads</div></div>
-                    <div class="p-stat"><div class="num" id="profilePoints">0</div><div class="lbl">Points</div></div>
-                    <div class="p-stat"><div class="num" id="profileRank">#--</div><div class="lbl">Rank</div></div>
+                
+                <div class="bottom-nav">
+                    <button class="nav-item active" onclick="showScreen('homeScreen')">
+                        <span class="icon">🏠</span> Home
+                    </button>
+                    <button class="nav-item" onclick="showScreen('referralScreen')">
+                        <span class="icon">👥</span> Referrals
+                        <span class="badge" id="refBadge">Invite</span>
+                    </button>
+                    <button class="nav-item" onclick="showScreen('rankingScreen')">
+                        <span class="icon">🏆</span> Ranking
+                        <span class="badge" id="rankBadge">#--</span>
+                    </button>
+                    <button class="nav-item" onclick="showScreen('newsScreen')">
+                        <span class="icon">📰</span> News
+                        <span class="notification-dot" id="newsDot"></span>
+                    </button>
+                    <button class="nav-item" onclick="showScreen('profileScreen')">
+                        <span class="icon">👤</span> Profile
+                    </button>
                 </div>
             </div>
             
-            <!-- Reward Info -->
-            <div class="reward-info">
-                <div class="reward-title">🏆 Weekly Rewards</div>
-                <div class="reward-detail">
-                    🎯 <strong>Top 20 users</strong> share <strong>$20</strong> every week!<br>
-                    🥇 <strong>1st place:</strong> <strong style="color:#f59e0b;">$4</strong> (10,000+ ads)<br>
-                    🏅 <strong>2nd - 20th:</strong> <strong style="color:#10b981;">$1 each</strong> (5,000+ ads)<br>
-                    ⏰ Payouts within <strong>5 - 24 hours</strong>
-                </div>
-                <div class="reward-rule">
-                    📩 Send your <strong>USDT wallet address</strong> and <strong>User ID</strong> via Contact Admin to receive rewards!
+            <!-- REWARD SCREEN -->
+            <div class="screen" id="rewardScreen">
+                <div class="reward-overlay">
+                    <span class="emoji" id="rewardEmoji">🎉</span>
+                    <div class="title">Great!</div>
+                    <div class="sub-title">You earned</div>
+                    <div class="points" id="rewardPoints">+10 Points</div>
+                    <button class="continue-btn" onclick="showScreen('homeScreen')">Continue</button>
                 </div>
             </div>
             
-            <!-- Contact Admin -->
-            <div class="contact-box">
-                <div class="contact-title">📩 Contact Admin</div>
-                <div class="contact-sub">If you have any problem you can ask it here.</div>
-                <textarea id="contactMessage" placeholder="Type your message here..."></textarea>
-                <button class="send-msg-btn" id="sendMsgBtn" onclick="sendMessageToAdmin()">📤 Send Message</button>
-                <div id="contactStatus" style="margin-top:8px; font-size:13px; display:none;"></div>
+            <!-- REFERRAL SCREEN -->
+            <div class="screen" id="referralScreen">
+                <div class="app-header">
+                    <h1>ARENA</h1>
+                    <button class="close-btn" onclick="closeApp()">✕ Close</button>
+                </div>
+                <div style="margin-top:4px;">
+                    <div style="font-size:20px; font-weight:700; margin-bottom:2px;">Invite Friends</div>
+                    <div style="color:#94a3b8; font-size:14px; margin-bottom:12px;">Invite friends and earn <strong style="color:#f59e0b;">5 points</strong> per referral</div>
+                </div>
+                <div class="referral-box">
+                    <div style="font-size:12px; color:#94a3b8; margin-bottom:4px;">Your Referral Link</div>
+                    <div class="link" id="referralLink">Loading...</div>
+                    <button class="share-btn" onclick="shareLink()">📤 SHARE LINK</button>
+                </div>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="label">Total Referrals</div>
+                        <div class="value gold" id="totalReferrals">0</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="label">Referral Earnings</div>
+                        <div class="value green" id="referralEarnings">0</div>
+                    </div>
+                </div>
+                <div class="bottom-nav">
+                    <button class="nav-item" onclick="showScreen('homeScreen')"><span class="icon">🏠</span> Home</button>
+                    <button class="nav-item active" onclick="showScreen('referralScreen')"><span class="icon">👥</span> Referrals</button>
+                    <button class="nav-item" onclick="showScreen('rankingScreen')"><span class="icon">🏆</span> Ranking</button>
+                    <button class="nav-item" onclick="showScreen('newsScreen')"><span class="icon">📰</span> News</button>
+                    <button class="nav-item" onclick="showScreen('profileScreen')"><span class="icon">👤</span> Profile</button>
+                </div>
             </div>
             
-            <!-- Admin Replies -->
-            <div id="adminRepliesContainer" style="margin-top:12px;">
-                <div style="font-size:13px; font-weight:600; color:#94a3b8; margin-bottom:6px;">📩 Admin Replies</div>
-                <div id="adminRepliesList"></div>
+            <!-- RANKING SCREEN -->
+            <div class="screen" id="rankingScreen">
+                <div class="app-header">
+                    <h1>ARENA</h1>
+                    <button class="close-btn" onclick="closeApp()">✕ Close</button>
+                </div>
+                <div style="margin-top:4px;">
+                    <div style="font-size:20px; font-weight:700; margin-bottom:2px;">Top Players</div>
+                    <div style="color:#94a3b8; font-size:14px; margin-bottom:12px;">All users ranked by points</div>
+                </div>
+                <div class="rank-list" id="rankList">
+                    <div class="loading"><div class="spinner"></div>Loading rankings...</div>
+                </div>
+                <div class="my-rank-box" id="myRankBox">
+                    My Rank: <span id="myRankDisplay">#--</span>
+                    <span class="rank-league" id="rankLeague">Gold League</span>
+                    <span class="rank-sub" id="rankSub">Top 25% Players</span>
+                </div>
+                <div class="bottom-nav">
+                    <button class="nav-item" onclick="showScreen('homeScreen')"><span class="icon">🏠</span> Home</button>
+                    <button class="nav-item" onclick="showScreen('referralScreen')"><span class="icon">👥</span> Referrals</button>
+                    <button class="nav-item active" onclick="showScreen('rankingScreen')"><span class="icon">🏆</span> Ranking</button>
+                    <button class="nav-item" onclick="showScreen('newsScreen')"><span class="icon">📰</span> News</button>
+                    <button class="nav-item" onclick="showScreen('profileScreen')"><span class="icon">👤</span> Profile</button>
+                </div>
             </div>
             
-            <div class="bottom-nav">
-                <button class="nav-item" onclick="showScreen('homeScreen')"><span class="icon">🏠</span> Home</button>
-                <button class="nav-item" onclick="showScreen('referralScreen')"><span class="icon">👥</span> Referrals</button>
-                <button class="nav-item" onclick="showScreen('rankingScreen')"><span class="icon">🏆</span> Ranking</button>
-                <button class="nav-item" onclick="showScreen('newsScreen')"><span class="icon">📰</span> News</button>
-                <button class="nav-item active" onclick="showScreen('profileScreen')"><span class="icon">👤</span> Profile</button>
+            <!-- NEWS SCREEN -->
+            <div class="screen" id="newsScreen">
+                <div class="app-header">
+                    <h1>ARENA</h1>
+                    <button class="close-btn" onclick="showScreen('homeScreen')">✕ Back</button>
+                </div>
+                <div style="margin-top:4px;">
+                    <div style="font-size:20px; font-weight:700; margin-bottom:2px;">📰 News</div>
+                    <div style="color:#94a3b8; font-size:14px; margin-bottom:12px;">Announcements from the admin</div>
+                </div>
+                <div class="announcement-list" id="announcementList">
+                    <div class="loading"><div class="spinner"></div>Loading announcements...</div>
+                </div>
+                <div class="bottom-nav">
+                    <button class="nav-item" onclick="showScreen('homeScreen')"><span class="icon">🏠</span> Home</button>
+                    <button class="nav-item" onclick="showScreen('referralScreen')"><span class="icon">👥</span> Referrals</button>
+                    <button class="nav-item" onclick="showScreen('rankingScreen')"><span class="icon">🏆</span> Ranking</button>
+                    <button class="nav-item active" onclick="showScreen('newsScreen')"><span class="icon">📰</span> News</button>
+                    <button class="nav-item" onclick="showScreen('profileScreen')"><span class="icon">👤</span> Profile</button>
+                </div>
             </div>
+            
+            <!-- PROFILE SCREEN -->
+            <div class="screen" id="profileScreen">
+                <div class="app-header">
+                    <h1>ARENA</h1>
+                    <button class="close-btn" onclick="closeApp()">✕ Close</button>
+                </div>
+                <div class="profile-card">
+                    <span class="avatar">👤</span>
+                    <div class="p-name" id="profileName">Arena Player</div>
+                    <div class="p-id" id="profileId">ID: 123456789</div>
+                    <div class="p-stats">
+                        <div class="p-stat"><div class="num" id="profileAds">0</div><div class="lbl">Ads</div></div>
+                        <div class="p-stat"><div class="num" id="profilePoints">0</div><div class="lbl">Points</div></div>
+                        <div class="p-stat"><div class="num" id="profileRank">#--</div><div class="lbl">Rank</div></div>
+                    </div>
+                </div>
+                
+                <div class="reward-info">
+                    <div class="reward-title">🏆 Weekly Rewards</div>
+                    <div class="reward-detail">
+                        🎯 <strong>Top 20 users</strong> share <strong>$20</strong> every week!<br>
+                        🥇 <strong>1st place:</strong> <strong style="color:#f59e0b;">$4</strong> (10,000+ ads)<br>
+                        🏅 <strong>2nd - 20th:</strong> <strong style="color:#10b981;">$1 each</strong> (5,000+ ads)<br>
+                        ⏰ Payouts within <strong>5 - 24 hours</strong>
+                    </div>
+                    <div class="reward-rule">
+                        📩 Send your <strong>USDT wallet address</strong> and <strong>User ID</strong> via Contact Admin to receive rewards!
+                    </div>
+                </div>
+                
+                <div class="contact-box">
+                    <div class="contact-title">📩 Contact Admin</div>
+                    <div class="contact-sub">If you have any problem you can ask it here.</div>
+                    <textarea id="contactMessage" placeholder="Type your message here..."></textarea>
+                    <button class="send-msg-btn" id="sendMsgBtn" onclick="sendMessageToAdmin()">📤 Send Message</button>
+                    <div id="contactStatus" style="margin-top:8px; font-size:13px; display:none;"></div>
+                </div>
+                
+                <div id="adminRepliesContainer" style="margin-top:12px;">
+                    <div style="font-size:13px; font-weight:600; color:#94a3b8; margin-bottom:6px;">📩 Admin Replies</div>
+                    <div id="adminRepliesList"></div>
+                </div>
+                
+                <div class="bottom-nav">
+                    <button class="nav-item" onclick="showScreen('homeScreen')"><span class="icon">🏠</span> Home</button>
+                    <button class="nav-item" onclick="showScreen('referralScreen')"><span class="icon">👥</span> Referrals</button>
+                    <button class="nav-item" onclick="showScreen('rankingScreen')"><span class="icon">🏆</span> Ranking</button>
+                    <button class="nav-item" onclick="showScreen('newsScreen')"><span class="icon">📰</span> News</button>
+                    <button class="nav-item active" onclick="showScreen('profileScreen')"><span class="icon">👤</span> Profile</button>
+                </div>
+            </div>
+            
         </div>
         
     </div>
@@ -560,7 +686,20 @@
         var BOT_USERNAME = 'Ads_Arena_Bot';
         
         // ============================================================
-        // 🚀 INIT
+        // 🚀 SPLASH SCREEN - Auto disappear after 3 seconds
+        // ============================================================
+        setTimeout(function() {
+            var splash = document.getElementById('splashScreen');
+            splash.style.animation = 'splashFadeOut 0.5s ease forwards';
+            setTimeout(function() {
+                splash.style.display = 'none';
+                document.getElementById('mainApp').style.display = 'block';
+                initApp();
+            }, 500);
+        }, 3000);
+        
+        // ============================================================
+        // 🚀 INIT APP
         // ============================================================
         function initApp() {
             console.log('🚀 Ads Arena initializing...');
@@ -584,11 +723,11 @@
                 }
             }
             if (!userId) {
-                userId = '123456789';
-                document.getElementById('displayId').textContent = 'ID: 123456789';
-                document.getElementById('profileId').textContent = 'ID: 123456789';
-                document.getElementById('referralLink').textContent = 'https://t.me/' + BOT_USERNAME + '?start=123456789';
-                console.warn('⚠️ Using fallback user ID');
+                userId = '6640549300';
+                document.getElementById('displayId').textContent = 'ID: 6640549300';
+                document.getElementById('profileId').textContent = 'ID: 6640549300';
+                document.getElementById('referralLink').textContent = 'https://t.me/' + BOT_USERNAME + '?start=6640549300';
+                console.log('⚠️ Using fallback user ID: 6640549300');
             }
             loadUserData();
         }
@@ -603,7 +742,7 @@
                 var doc = await docRef.get();
                 
                 if (!doc.exists) {
-                    console.log('👤 Creating new user profile...');
+                    console.log('👤 New user detected, creating profile...');
                     await docRef.set({
                         displayName: userName,
                         userId: userId.toString(),
@@ -620,13 +759,14 @@
                         createdAt: firebase.firestore.FieldValue.serverTimestamp(),
                         lastActive: firebase.firestore.FieldValue.serverTimestamp()
                     });
+                    console.log('✅ New user profile created');
                 }
                 
                 doc = await docRef.get();
                 var data = doc.data();
-                console.log('📊 User data loaded');
+                console.log('📊 User data loaded:', data);
                 
-                if (data.displayName) {
+                if (data.displayName && data.displayName !== '') {
                     document.getElementById('displayName').textContent = data.displayName;
                     document.getElementById('profileName').textContent = data.displayName;
                 }
@@ -658,7 +798,6 @@
                 updateWeeklyProgress(weekCount);
                 updateRankLeague(rank);
                 
-                // Load announcements
                 var announcements = data.announcements || [];
                 var unread = announcements.filter(function(a) { return !a.read; });
                 unreadAnnouncements = unread.length;
@@ -683,6 +822,7 @@
                 
             } catch (error) {
                 console.error('❌ Error loading user data:', error);
+                document.getElementById('displayName').textContent = '⚠️ Error loading data';
             }
         }
         
@@ -692,12 +832,10 @@
         function loadAdminReplies(data) {
             var replies = data.replies || [];
             var container = document.getElementById('adminRepliesList');
-            
             if (replies.length === 0) {
                 container.innerHTML = '<div style="font-size:12px; color:#64748b; text-align:center; padding:8px;">No admin replies yet.</div>';
                 return;
             }
-            
             var html = '';
             replies.forEach(function(reply) {
                 var time = reply.timestamp ? new Date(reply.timestamp).toLocaleString() : 'Just now';
@@ -707,7 +845,6 @@
                 html += '<div class="reply-time">' + time + '</div>';
                 html += '</div>';
             });
-            
             container.innerHTML = html;
         }
         
@@ -803,10 +940,13 @@
         }
         
         // ============================================================
-        // 👁️ WATCH AD - MONETAG
+        // 👁️ WATCH AD
         // ============================================================
         function watchAd() {
-            if (adInProgress) { console.log('⏳ Ad in progress'); return; }
+            if (adInProgress) {
+                console.log('⏳ Ad in progress');
+                return;
+            }
             var btn = document.getElementById('watchBtn');
             if (typeof show_11083093 === 'undefined') {
                 alert('Ad service loading. Please try again.');
@@ -818,7 +958,7 @@
             btn.innerHTML = '⏳ Loading ad...';
             
             show_11083093().then(function() {
-                console.log('✅ Ad watched');
+                console.log('✅ Ad watched successfully');
                 showScreen('rewardScreen');
                 document.getElementById('rewardEmoji').textContent = '🎉';
                 document.getElementById('rewardPoints').textContent = '+10 Points';
@@ -837,7 +977,7 @@
                 };
                 
                 docRef.update(updates).then(function() {
-                    console.log('✅ Points saved');
+                    console.log('✅ Points saved successfully!');
                     var pointsEl = document.getElementById('userPoints');
                     var currentPoints = parseInt(pointsEl.textContent.replace(/,/g, '')) || 0;
                     pointsEl.textContent = (currentPoints + 10).toLocaleString();
@@ -866,17 +1006,17 @@
                     }
                     adInProgress = false;
                     btn.disabled = false;
-                    btn.innerHTML = 'WATCH ADS<span class="sub-text" id="watchSubText">Earn 10 Points</span>';
+                    btn.innerHTML = 'WATCH ADS<span class="sub-text">Earn 10 Points</span>';
                 }).catch(function(error) {
-                    console.error('❌ Error saving points:', error);
-                    alert('Error saving reward. Please try again.');
+                    console.error('❌ Firebase ERROR:', error);
+                    alert('Error saving reward: ' + error.message);
                     adInProgress = false;
                     btn.disabled = false;
                     btn.innerHTML = 'WATCH ADS<span class="sub-text">Earn 10 Points</span>';
                 });
             }).catch(function(error) {
                 console.error('❌ Ad failed:', error);
-                alert('Ad failed. Please try again.');
+                alert('Ad failed to load. Please try again.');
                 adInProgress = false;
                 btn.disabled = false;
                 btn.innerHTML = 'WATCH ADS<span class="sub-text">Earn 10 Points</span>';
@@ -884,7 +1024,7 @@
         }
         
         // ============================================================
-        // 🏆 LOAD RANKINGS (ALL USERS)
+        // 🏆 LOAD RANKINGS
         // ============================================================
         async function loadRankings() {
             try {
@@ -894,12 +1034,10 @@
                 var rank = 1;
                 var userRank = 6;
                 var totalUsers = snapshot.size;
-                
                 if (snapshot.empty) {
                     rankList.innerHTML = '<div class="loading">No players yet. Be the first!</div>';
                     return;
                 }
-                
                 snapshot.forEach(function(doc) {
                     var data = doc.data();
                     var isYou = doc.id === userId.toString();
@@ -914,7 +1052,6 @@
                     rankList.appendChild(div);
                     rank++;
                 });
-                
                 document.getElementById('myRankDisplay').textContent = '#' + userRank + ' of ' + totalUsers;
                 document.getElementById('profileRank').textContent = '#' + userRank;
                 document.getElementById('rankBadge').textContent = '#' + userRank;
@@ -933,19 +1070,16 @@
             var msg = document.getElementById('contactMessage').value.trim();
             var statusEl = document.getElementById('contactStatus');
             var btn = document.getElementById('sendMsgBtn');
-            
             if (!msg) {
                 statusEl.style.display = 'block';
                 statusEl.style.color = '#ef4444';
                 statusEl.textContent = '❌ Please enter a message.';
                 return;
             }
-            
             btn.disabled = true;
             statusEl.style.display = 'block';
             statusEl.style.color = '#3b82f6';
             statusEl.textContent = '📤 Sending...';
-            
             try {
                 await db.collection('messages').add({
                     userId: userId,
@@ -957,7 +1091,6 @@
                     replied: false,
                     reply: ''
                 });
-                
                 statusEl.style.color = '#10b981';
                 statusEl.textContent = '✅ Message sent successfully!';
                 document.getElementById('contactMessage').value = '';
@@ -966,7 +1099,6 @@
                 statusEl.style.color = '#ef4444';
                 statusEl.textContent = '❌ Error sending message. Please try again.';
             }
-            
             btn.disabled = false;
             setTimeout(function() { statusEl.style.display = 'none'; }, 4000);
         }
@@ -1029,11 +1161,6 @@
                 window.Telegram.WebApp.close();
             }
         }
-        
-        // ============================================================
-        // 🚀 START
-        // ============================================================
-        document.addEventListener('DOMContentLoaded', initApp);
     </script>
 </body>
 </html>
