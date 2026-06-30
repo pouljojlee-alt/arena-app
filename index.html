@@ -546,31 +546,53 @@
         var adInProgress = false;
         
         // ============================================================
-        // 🚀 INIT
+        // 🚀 INIT - FIXED: Get User from Telegram Properly
         // ============================================================
         function initApp() {
             console.log('🚀 App initializing...');
             
+            // Check if running inside Telegram WebApp
             var tg = window.Telegram?.WebApp;
+            
             if (tg) {
+                // Expand the app to full screen
                 tg.expand();
+                console.log('✅ Telegram WebApp detected');
+                
+                // Get user data from Telegram
                 if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
                     var user = tg.initDataUnsafe.user;
                     userId = user.id.toString();
-                    document.getElementById('displayName').textContent = user.first_name || 'Arena Player';
+                    var userName = user.first_name || 'Arena Player';
+                    var userLastName = user.last_name || '';
+                    var fullName = userName + (userLastName ? ' ' + userLastName : '');
+                    
+                    console.log('✅ User detected from Telegram:', {
+                        id: userId,
+                        name: fullName,
+                        username: user.username || 'No username'
+                    });
+                    
+                    // Update UI with user data
+                    document.getElementById('displayName').textContent = fullName;
                     document.getElementById('displayId').textContent = 'ID: ' + userId;
                     document.getElementById('referralLink').textContent = 'https://t.me/arena_bot?start=' + userId;
-                    console.log('✅ Telegram user detected:', userId);
+                } else {
+                    console.warn('⚠️ Telegram user data not available in initDataUnsafe');
                 }
+            } else {
+                console.warn('⚠️ Not running inside Telegram WebApp - using fallback');
             }
             
+            // Fallback if no user ID was detected
             if (!userId) {
                 userId = '123456789';
                 document.getElementById('displayId').textContent = 'ID: 123456789';
                 document.getElementById('referralLink').textContent = 'https://t.me/arena_bot?start=123456789';
-                console.log('⚠️ Using fallback user ID');
+                console.warn('⚠️ Using fallback user ID: 123456789');
             }
             
+            // Load user data from Firebase
             loadUserData();
         }
         
@@ -586,8 +608,12 @@
                 
                 if (!doc.exists) {
                     console.log('👤 New user detected, creating profile...');
+                    
+                    // Get the current display name from the UI
+                    var displayName = document.getElementById('displayName').textContent || 'Arena Player';
+                    
                     await docRef.set({
-                        displayName: document.getElementById('displayName').textContent,
+                        displayName: displayName,
                         userId: userId.toString(),
                         points: 0,
                         allTimeAds: 0,
@@ -601,12 +627,18 @@
                         createdAt: firebase.firestore.FieldValue.serverTimestamp(),
                         lastActive: firebase.firestore.FieldValue.serverTimestamp()
                     });
-                    console.log('✅ New user profile created');
+                    console.log('✅ New user profile created with name:', displayName);
                 }
                 
+                // Get updated data
                 doc = await docRef.get();
                 var data = doc.data();
-                console.log('📊 User data loaded:', data);
+                console.log('📊 User data loaded successfully');
+                
+                // Update UI with user data
+                if (data.displayName) {
+                    document.getElementById('displayName').textContent = data.displayName;
+                }
                 
                 var todayKey = new Date().toISOString().split('T')[0];
                 var weekKey = getWeekKey();
